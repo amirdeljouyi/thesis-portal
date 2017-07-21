@@ -1,0 +1,54 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "student",
+            "otherEntityName": "student",
+            "otherEntityField": "name",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "thesis(title)"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "referee",
+            "otherEntityName": "referee",
+            "otherEntityRelationshipName": "thesis"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "title",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "majorTitle",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "summary",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "dayOfDefense",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "locationOfDefense",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "file",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        }
+    ],
+    "changelogDate": "20170720092029",
+    "entityTableName": "thesis",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

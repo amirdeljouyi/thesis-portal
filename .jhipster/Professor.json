@@ -1,0 +1,57 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "referee",
+            "otherEntityName": "referee",
+            "otherEntityRelationshipName": "professor"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "adviser",
+            "otherEntityName": "adviser",
+            "otherEntityRelationshipName": "professor"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "supervisor",
+            "otherEntityName": "supervisor",
+            "otherEntityRelationshipName": "professor"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "relationshipName": "level",
+            "otherEntityName": "level",
+            "otherEntityField": "level"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength"
+            ],
+            "fieldValidateRulesMinlength": 3
+        },
+        {
+            "fieldName": "job",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "freeCapacityOfYear",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "freeCapacityOfTotal",
+            "fieldType": "Integer"
+        }
+    ],
+    "changelogDate": "20170720092027",
+    "entityTableName": "professor",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no"
+}

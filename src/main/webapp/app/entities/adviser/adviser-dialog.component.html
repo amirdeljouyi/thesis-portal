@@ -1,0 +1,61 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAdviserLabel">Create or edit a Adviser</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!adviser.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="adviser.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="adviser.name"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_startTime">Start Time</label>
+            <div class="d-flex">
+                <input id="field_startTime" type="datetime-local" class="form-control" name="startTime" [(ngModel)]="adviser.startTime"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.startTime?.dirty && editForm.controls.startTime?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.startTime?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.startTime?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="field_professor">Professor</label>
+            <select class="form-control" id="field_professor" name="professor" [(ngModel)]="adviser.professor" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="professorOption.id === adviser.professor?.id ? adviser.professor : professorOption" *ngFor="let professorOption of professors; trackBy: trackProfessorById">{{professorOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="field_student">Student</label>
+            <select class="form-control" id="field_student" name="student" [(ngModel)]="adviser.student" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="studentOption.id === adviser.student?.id ? adviser.student : studentOption" *ngFor="let studentOption of students; trackBy: trackStudentById">{{studentOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

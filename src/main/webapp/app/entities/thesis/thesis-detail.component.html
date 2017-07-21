@@ -1,0 +1,54 @@
+
+<div *ngIf="thesis">
+    <h2><span>Thesis</span> {{thesis.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Title</span></dt>
+        <dd>
+            <span>{{thesis.title}}</span>
+        </dd>
+        <dt><span>Major Title</span></dt>
+        <dd>
+            <span>{{thesis.majorTitle}}</span>
+        </dd>
+        <dt><span>Summary</span></dt>
+        <dd>
+            <span>{{thesis.summary}}</span>
+        </dd>
+        <dt><span>Day Of Defense</span></dt>
+        <dd>
+            <span>{{thesis.dayOfDefense | date:'medium'}}</span>
+        </dd>
+        <dt><span>Location Of Defense</span></dt>
+        <dd>
+            <span>{{thesis.locationOfDefense}}</span>
+        </dd>
+        <dt><span>File</span></dt>
+        <dd>
+            <div *ngIf="thesis.file">
+                <a (click)="openFile(thesis.fileContentType, thesis.file)">open</a>
+                {{thesis.fileContentType}}, {{byteSize(thesis.file)}}
+            </div>
+        </dd>
+        <dt><span>Student</span></dt>
+        <dd>
+            <div *ngIf="thesis.student">
+                <a [routerLink]="['/student', thesis.student?.id]">{{thesis.student?.name}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'thesis/'+ thesis.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

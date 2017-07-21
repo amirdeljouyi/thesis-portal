@@ -1,0 +1,80 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "adviser",
+            "otherEntityName": "adviser",
+            "otherEntityRelationshipName": "student"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "superviser",
+            "otherEntityName": "supervisor",
+            "otherEntityRelationshipName": "student"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "thesis",
+            "otherEntityName": "thesis",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "student"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "name",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "Status",
+            "fieldValues": "INPRORGESS,DISSMISSED,DEFENSED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "yearOfEnter",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "numOfSupervisor",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "max"
+            ],
+            "fieldValidateRulesMax": 2
+        },
+        {
+            "fieldName": "numOfAdviser",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "max"
+            ],
+            "fieldValidateRulesMax": 2
+        },
+        {
+            "fieldName": "studentNumber",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required",
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 1000000000,
+            "fieldValidateRulesMax": 9999999999
+        }
+    ],
+    "changelogDate": "20170720092026",
+    "entityTableName": "student",
+    "dto": "no",
+    "pagination": "infinite-scroll",
+    "service": "no"
+}

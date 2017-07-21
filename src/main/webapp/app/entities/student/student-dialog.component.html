@@ -1,0 +1,118 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myStudentLabel">Create or edit a Student</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!student.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="student.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_name">Name</label>
+            <input type="text" class="form-control" name="name" id="field_name"
+                [(ngModel)]="student.name" required />
+            <div [hidden]="!(editForm.controls.name?.dirty && editForm.controls.name?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.name?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="student.status" id="field_status"  required>
+                <option value="INPRORGESS">INPRORGESS</option>
+                <option value="DISSMISSED">DISSMISSED</option>
+                <option value="DEFENSED">DEFENSED</option>
+            </select>
+            <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.status?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_yearOfEnter">Year Of Enter</label>
+            <input type="number" class="form-control" name="yearOfEnter" id="field_yearOfEnter"
+                [(ngModel)]="student.yearOfEnter" required />
+            <div [hidden]="!(editForm.controls.yearOfEnter?.dirty && editForm.controls.yearOfEnter?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.yearOfEnter?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.yearOfEnter?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_numOfSupervisor">Num Of Supervisor</label>
+            <input type="number" class="form-control" name="numOfSupervisor" id="field_numOfSupervisor"
+                [(ngModel)]="student.numOfSupervisor" max="2" />
+            <div [hidden]="!(editForm.controls.numOfSupervisor?.dirty && editForm.controls.numOfSupervisor?.invalid)">
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numOfSupervisor?.errors?.max">
+                    This field cannot be more than 2.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numOfSupervisor?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_numOfAdviser">Num Of Adviser</label>
+            <input type="number" class="form-control" name="numOfAdviser" id="field_numOfAdviser"
+                [(ngModel)]="student.numOfAdviser" max="2" />
+            <div [hidden]="!(editForm.controls.numOfAdviser?.dirty && editForm.controls.numOfAdviser?.invalid)">
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numOfAdviser?.errors?.max">
+                    This field cannot be more than 2.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.numOfAdviser?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_studentNumber">Student Number</label>
+            <input type="number" class="form-control" name="studentNumber" id="field_studentNumber"
+                [(ngModel)]="student.studentNumber" required min="1000000000" max="9999999999" />
+            <div [hidden]="!(editForm.controls.studentNumber?.dirty && editForm.controls.studentNumber?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.studentNumber?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.studentNumber?.errors?.min">
+                    This field should be at least 1000000000.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.studentNumber?.errors?.max">
+                    This field cannot be more than 9999999999.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.studentNumber?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

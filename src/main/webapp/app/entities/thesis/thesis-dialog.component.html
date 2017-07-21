@@ -1,0 +1,83 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myThesisLabel">Create or edit a Thesis</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!thesis.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="thesis.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_title">Title</label>
+            <input type="text" class="form-control" name="title" id="field_title"
+                [(ngModel)]="thesis.title" required />
+            <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.title?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_majorTitle">Major Title</label>
+            <input type="text" class="form-control" name="majorTitle" id="field_majorTitle"
+                [(ngModel)]="thesis.majorTitle"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_summary">Summary</label>
+            <input type="text" class="form-control" name="summary" id="field_summary"
+                [(ngModel)]="thesis.summary"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_dayOfDefense">Day Of Defense</label>
+            <div class="d-flex">
+                <input id="field_dayOfDefense" type="datetime-local" class="form-control" name="dayOfDefense" [(ngModel)]="thesis.dayOfDefense"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_locationOfDefense">Location Of Defense</label>
+            <input type="text" class="form-control" name="locationOfDefense" id="field_locationOfDefense"
+                [(ngModel)]="thesis.locationOfDefense"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_file">File</label>
+            <div>
+                <div *ngIf="thesis.file" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(thesis.fileContentType, thesis.file)">open</a><br>
+                    <span class="pull-left">{{thesis.fileContentType}}, {{byteSize(thesis.file)}}</span>
+                    <button type="button" (click)="thesis.file=null;thesis.fileContentType=null;"
+                            class="btn btn-default btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" (change)="setFileData($event, thesis, 'file', false)"/>
+            </div>
+            <input type="hidden" class="form-control" name="file" id="field_file"
+                [(ngModel)]="thesis.file"  />
+            <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
+                [(ngModel)]="thesis.fileContentType" />
+        </div>
+
+        <div class="form-group">
+            <label for="field_student">Student</label>
+            <select class="form-control" id="field_student" name="student" [(ngModel)]="thesis.student">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="studentOption.id === thesis.student?.id ? thesis.student : studentOption" *ngFor="let studentOption of students; trackBy: trackStudentById">{{studentOption.name}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

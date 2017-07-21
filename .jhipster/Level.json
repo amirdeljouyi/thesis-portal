@@ -1,0 +1,36 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "level",
+            "fieldType": "ProfessorLevel",
+            "fieldValues": "PROFESSOR,ASSISTANTPROFESSOR,ASSOCIATEPROFESSOR"
+        },
+        {
+            "fieldName": "capacityOfYear",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 15
+        },
+        {
+            "fieldName": "capacityOfTotal",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min",
+                "max"
+            ],
+            "fieldValidateRulesMin": 0,
+            "fieldValidateRulesMax": 40
+        }
+    ],
+    "changelogDate": "20170720092028",
+    "entityTableName": "level",
+    "dto": "no",
+    "pagination": "pagination",
+    "service": "no"
+}

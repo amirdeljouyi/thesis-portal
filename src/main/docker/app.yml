@@ -1,0 +1,19 @@
+version: '2'
+services:
+    thesisportal-app:
+        image: thesisportal
+        environment:
+            - SPRING_PROFILES_ACTIVE=prod,swagger
+            - SPRING_DATASOURCE_URL=jdbc:mysql://thesisportal-mysql:3306/thesisportal?useUnicode=true&characterEncoding=utf8&useSSL=false
+            - JHIPSTER_SLEEP=10 # gives time for the database to boot before the application
+            - SPRING_DATA_ELASTICSEARCH_CLUSTER_NODES=thesisportal-elasticsearch:9300
+        ports:
+            - 8080:8080
+    thesisportal-mysql:
+        extends:
+            file: mysql.yml
+            service: thesisportal-mysql
+    thesisportal-elasticsearch:
+        extends:
+            file: elasticsearch.yml
+            service: thesisportal-elasticsearch

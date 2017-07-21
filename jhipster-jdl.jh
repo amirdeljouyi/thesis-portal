@@ -1,0 +1,88 @@
+entity Student {
+	name String required
+    status Status required
+    yearOfEnter Integer required
+	numOfSupervisor Integer max(2)
+	numOfAdviser Integer max(2)
+	studentNumber Long required min(1000000000) max(9999999999)
+}
+
+enum Status {
+	INPRORGESS, DISSMISSED , DEFENSED
+}
+
+entity Professor {
+	name String required minlength(3)
+    job String
+    freeCapacityOfYear Integer
+	freeCapacityOfTotal Integer
+}
+
+entity Level {
+	level ProfessorLevel
+    capacityOfYear Integer min(0) max(15)
+    capacityOfTotal Integer min(0) max(40)
+}
+
+enum ProfessorLevel {
+	PROFESSOR, ASSISTANTPROFESSOR, ASSOCIATEPROFESSOR
+}
+
+entity Thesis {
+	title String required
+    majorTitle String 
+    summary String
+    dayOfDefense Instant
+    locationOfDefense String
+    file Blob
+}
+
+entity Referee {
+	name String
+}
+
+entity Adviser {
+	name String
+	startTime Instant required
+}
+
+entity Supervisor {
+	name String
+	startTime Instant required 
+}
+
+// relation 
+
+relationship OneToMany {
+	Professor{referee} to Referee{professor(name)},
+    Professor{adviser} to Adviser {professor(name)},
+    Professor{supervisor} to Supervisor{professor(name)}
+}
+relationship ManyToOne {
+	Professor{level(level)} to Level
+}
+
+relationship OneToMany {
+	Student{adviser} to Adviser{student(name)},
+    Student{superviser} to Supervisor{student(name)}
+}
+
+relationship OneToOne{
+	Thesis{student(name)} to Student{thesis(title)}  
+}
+
+relationship ManyToOne {
+	 Referee{thesis(title)} to Thesis{referee}
+}
+
+// Set pagination options
+paginate Professor, Student with infinite-scroll
+paginate Thesis, Level, Adviser, Supervisor, Referee with pagination
+
+
+// dto * with mapstruct
+
+// Set service options to all except few
+// service all with serviceImpl except Employee, Job
+// Set an angular suffix
+// angularSuffix * with mySuffix

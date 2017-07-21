@@ -1,0 +1,43 @@
+
+<div *ngIf="professor">
+    <h2><span>Professor</span> {{professor.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{professor.name}}</span>
+        </dd>
+        <dt><span>Job</span></dt>
+        <dd>
+            <span>{{professor.job}}</span>
+        </dd>
+        <dt><span>Free Capacity Of Year</span></dt>
+        <dd>
+            <span>{{professor.freeCapacityOfYear}}</span>
+        </dd>
+        <dt><span>Free Capacity Of Total</span></dt>
+        <dd>
+            <span>{{professor.freeCapacityOfTotal}}</span>
+        </dd>
+        <dt><span>Level</span></dt>
+        <dd>
+            <div *ngIf="professor.level">
+                <a [routerLink]="['/level', professor.level?.id]">{{professor.level?.level}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'professor/'+ professor.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>
