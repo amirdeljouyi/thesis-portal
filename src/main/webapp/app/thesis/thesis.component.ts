@@ -5,12 +5,13 @@ import { JhiEventManager, JhiParseLinks, JhiPaginationUtil, JhiAlertService, Jhi
 
 import { Thesis } from './thesis.model';
 import { ThesisService } from './thesis.service';
-import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../../shared';
-import { PaginationConfig } from '../../blocks/config/uib-pagination.config';
+import { ITEMS_PER_PAGE, Principal, ResponseWrapper } from '../shared';
+import { PaginationConfig } from '../blocks/config/uib-pagination.config';
 
 @Component({
     selector: 'jhi-thesis',
-    templateUrl: './thesis.component.html'
+    templateUrl: './thesis.component.html',
+    styleUrls: ['thesis.scss']
 })
 export class ThesisComponent implements OnInit, OnDestroy {
 
@@ -29,6 +30,7 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+    cardView = true;
 
     constructor(
         private thesisService: ThesisService,
@@ -144,6 +146,14 @@ currentAccount: any;
             result.push('id');
         }
         return result;
+    }
+
+    isAuthenticated() {
+        return this.principal.isAuthenticated();
+    }
+
+    changeView(b: boolean) {
+        this.cardView = b;
     }
 
     private onSuccess(data, headers) {

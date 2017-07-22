@@ -7,9 +7,9 @@ import { Observable } from 'rxjs/Rx';
 import { JhiDateUtils, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { ThesisPortalTestModule } from '../../../test.module';
 import { MockActivatedRoute } from '../../../helpers/mock-route.service';
-import { ThesisDetailComponent } from '../../../../../../main/webapp/app/entities/thesis/thesis-detail.component';
-import { ThesisService } from '../../../../../../main/webapp/app/entities/thesis/thesis.service';
-import { Thesis } from '../../../../../../main/webapp/app/entities/thesis/thesis.model';
+import { ThesisDetailComponent } from '../../../../../../main/webapp/app/thesis/thesis-detail.component';
+import { ThesisService } from '../../../../../../main/webapp/app/thesis/thesis.service';
+import { Thesis } from '../../../../../../main/webapp/app/thesis/thesis.model';
 
 describe('Component Tests', () => {
 

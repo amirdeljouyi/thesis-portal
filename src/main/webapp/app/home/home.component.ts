@@ -3,6 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { Account, LoginModalService, Principal } from '../shared';
+import { init } from 'ityped';
 
 @Component({
     selector: 'jhi-home',
@@ -28,6 +29,11 @@ export class HomeComponent implements OnInit {
             this.account = account;
         });
         this.registerAuthenticationSuccess();
+        init('.element', {
+        // required - for now, only accepting texts
+            strings: ['Milion of', 'Engineering', 'Art', 'Computer Science'],
+            loop: true // default
+        });
     }
 
     registerAuthenticationSuccess() {

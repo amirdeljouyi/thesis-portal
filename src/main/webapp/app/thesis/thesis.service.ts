@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import { JhiDateUtils } from 'ng-jhipster';
 
 import { Thesis } from './thesis.model';
-import { ResponseWrapper, createRequestOption } from '../../shared';
+import { ResponseWrapper, createRequestOption } from '../shared';
 
 @Injectable()
 export class ThesisService {

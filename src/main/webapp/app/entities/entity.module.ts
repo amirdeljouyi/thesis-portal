@@ -3,7 +3,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ThesisPortalStudentModule } from './student/student.module';
 import { ThesisPortalProfessorModule } from './professor/professor.module';
 import { ThesisPortalLevelModule } from './level/level.module';
-import { ThesisPortalThesisModule } from './thesis/thesis.module';
 import { ThesisPortalRefereeModule } from './referee/referee.module';
 import { ThesisPortalAdviserModule } from './adviser/adviser.module';
 import { ThesisPortalSupervisorModule } from './supervisor/supervisor.module';
@@ -14,7 +13,6 @@ import { ThesisPortalSupervisorModule } from './supervisor/supervisor.module';
         ThesisPortalStudentModule,
         ThesisPortalProfessorModule,
         ThesisPortalLevelModule,
-        ThesisPortalThesisModule,
         ThesisPortalRefereeModule,
         ThesisPortalAdviserModule,
         ThesisPortalSupervisorModule,

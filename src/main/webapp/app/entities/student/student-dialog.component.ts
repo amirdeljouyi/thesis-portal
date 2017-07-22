@@ -9,7 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Student } from './student.model';
 import { StudentPopupService } from './student-popup.service';
 import { StudentService } from './student.service';
-import { Thesis, ThesisService } from '../thesis';
+import { Thesis, ThesisService } from '../../thesis';
 import { ResponseWrapper } from '../../shared';
 
 @Component({

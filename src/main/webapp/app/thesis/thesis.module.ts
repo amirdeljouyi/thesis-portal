@@ -1,7 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { ThesisPortalSharedModule } from '../../shared';
+import { ThesisPortalSharedModule } from '../shared';
 import {
     ThesisService,
     ThesisPopupService,
@@ -48,4 +48,4 @@ const ENTITY_STATES = [
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class ThesisPortalThesisModule {}
+export class ThesisModule {}

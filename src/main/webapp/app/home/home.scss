@@ -3,14 +3,6 @@
 Main page styles
 ========================================================================== */
 
-.hipster {
-    display: inline-block;
-    width: 347px;
-    height: 497px;
-    background: url("../../content/images/hipster.png") no-repeat center top;
-    background-size: contain;
-}
-
 /* wait autoprefixer update to allow simple generation of high pixel density media query */
 @media
 only screen and (-webkit-min-device-pixel-ratio: 2),
@@ -19,8 +11,29 @@ only screen and (     -o-min-device-pixel-ratio: 2/1),
 only screen and (        min-device-pixel-ratio: 2),
 only screen and (                min-resolution: 192dpi),
 only screen and (                min-resolution: 2dppx) {
-    .hipster {
-        background: url("../../content/images/hipster2x.png") no-repeat center top;
-        background-size: contain;
+}
+
+.post{
+    max-width: 700px;
+    margin: 30px auto;
+}
+
+@media only screen and (min-width: 900px){
+    .bg {
+        background-position: center 80px;
     }
+}
+.bg {
+    background-image: url("../../content/images/P1-Home.jpg") ;
+    position: absolute;
+    top: 0px;
+    left: -15px;
+    right: -15px;
+    height: 100%;
+    background-size: cover;
+    background-position: center 0px;
+    background-repeat: no-repeat;
+}
+header{
+    height: 830px;
 }

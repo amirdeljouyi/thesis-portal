@@ -9,7 +9,7 @@ import { JhiEventManager, JhiAlertService } from 'ng-jhipster';
 import { Referee } from './referee.model';
 import { RefereePopupService } from './referee-popup.service';
 import { RefereeService } from './referee.service';
-import { Thesis, ThesisService } from '../thesis';
+import { Thesis, ThesisService } from '../../thesis';
 import { Professor, ProfessorService } from '../professor';
 import { ResponseWrapper } from '../../shared';
 

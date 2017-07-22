@@ -9,8 +9,8 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { Thesis } from './thesis.model';
 import { ThesisPopupService } from './thesis-popup.service';
 import { ThesisService } from './thesis.service';
-import { Student, StudentService } from '../student';
-import { ResponseWrapper } from '../../shared';
+import { Student, StudentService } from '../entities/student';
+import { ResponseWrapper } from '../shared';
 
 @Component({
     selector: 'jhi-thesis-dialog',

@@ -1,0 +1,21 @@
+@media (max-width: 767px){
+    .pic-modal{
+        display: none;
+    }
+}
+.pic-modal{
+    background: url("../../../content/images/67021-OBZVVT-208.png") repeat;
+}
+
+@media (min-width: 768px){
+    .modal-dialog {
+        max-width: 740px !important; 
+        margin: 15px auto !important; 
+    }
+}
+
+@media (min-width: 992px){
+   .modal-dialog {
+        max-width: 950px !important; 
+    }
+}

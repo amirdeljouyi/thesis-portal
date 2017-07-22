@@ -34,8 +34,8 @@ Generic styles
 /* other generic styles */
 
 .jh-card {
-    padding: 1.5%;
-    margin-top: 20px;
+    // padding: 1.5%;
+    // margin-top: 20px;
     border: none;
 }
 
@@ -243,3 +243,66 @@ Social button
     color: #fff;
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+.ityped-cursor{
+    color: #00c860;
+}
+/*******************************************************************************
+    Backgrounds
+*******************************************************************************/
+
+.bg1, .bg2, .bg, .bgmobile {
+  background-repeat: no-repeat !important;
+}
+
+.bg1 {
+  position: absolute;
+  background-position: top left;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  left: -15px;
+  top: 0;
+}
+.bg2 {
+  position: absolute;
+  background-position: top right;
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  right: -15px;
+  top: 0;
+  @media only screen and (max-width: 1024px){
+	  display: none;
+  }
+}
+
+.bgcover {
+  background-position: center;
+  background-size: cover;
+}
+
+.heading{
+    height: 400px;
+    position: relative;
+}
+
+.heading .bg1 , .heading .bg2{
+    max-width: 450px;
+    background-size: cover;
+}
+
+.valignout {
+  display: table;
+  height: 100%;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.valignin {
+  vertical-align: middle;
+  height: 100%;
+  width: 100%;
+  display: table-cell;
+  padding: 10px;
+}

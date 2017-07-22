@@ -1,10 +1,32 @@
 /* after changing this file run 'yarn run 'yarn run webpack:build' */
+// @font-face {
+//   font-family: 'Roboto Slab';
+//   src: url('../fonts/RobotoSlab-Thin.ttf') format('truetype'),
+//     url('../fonts/RobotoSlab-Regular.ttf') format('truetype'),
+//     url('../fonts/RobotoSlab-Light.ttf') format('truetype'),
+//     url('../fonts/RobotoSlab-Bold.ttf') format('truetype');
+// }
+
+@font-face {
+  font-family: 'Roboto Slab';
+  src: 
+    url('../fonts/RobotoSlab-Light.ttf') format('truetype');
+}
+
 $fa-font-path: '~font-awesome/fonts';
 
 /***************************
 put Sass variables here:
 eg $input-color: red;
 ****************************/
+
+$mycolor:#00c860;
+$brand-primary:$mycolor;
+$gray-dark:#595959;
+$font-family-sans-serif: "Roboto", Arial, Helvetica, sans-serif;
+$font-family-serif: "Roboto Slab", "Palatino Linotype", "Book Antiqua", Palatino, serif;
+$headings-font-family : $font-family-serif;
+$headings-font-weight: 300;
 
 @import 'node_modules/bootstrap/scss/bootstrap';
 @import 'node_modules/font-awesome/scss/font-awesome';
