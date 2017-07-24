@@ -31,12 +31,12 @@ public class Level implements Serializable {
     private ProfessorLevel level;
 
     @Min(value = 0)
-    @Max(value = 15)
+    @Max(value = 20)
     @Column(name = "capacity_of_year")
     private Integer capacityOfYear;
 
     @Min(value = 0)
-    @Max(value = 40)
+    @Max(value = 50)
     @Column(name = "capacity_of_total")
     private Integer capacityOfTotal;
 

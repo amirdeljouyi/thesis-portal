@@ -44,11 +44,8 @@ public class ProfessorResourceIntTest {
     private static final String DEFAULT_JOB = "AAAAAAAAAA";
     private static final String UPDATED_JOB = "BBBBBBBBBB";
 
-    private static final Integer DEFAULT_FREE_CAPACITY_OF_YEAR = 1;
-    private static final Integer UPDATED_FREE_CAPACITY_OF_YEAR = 2;
-
-    private static final Integer DEFAULT_FREE_CAPACITY_OF_TOTAL = 1;
-    private static final Integer UPDATED_FREE_CAPACITY_OF_TOTAL = 2;
+    private static final Integer DEFAULT_FREE_CAPACITY_OF_TOTAL = 0;
+    private static final Integer UPDATED_FREE_CAPACITY_OF_TOTAL = 1;
 
     @Autowired
     private ProfessorRepository professorRepository;
@@ -92,7 +89,6 @@ public class ProfessorResourceIntTest {
         Professor professor = new Professor()
             .name(DEFAULT_NAME)
             .job(DEFAULT_JOB)
-            .freeCapacityOfYear(DEFAULT_FREE_CAPACITY_OF_YEAR)
             .freeCapacityOfTotal(DEFAULT_FREE_CAPACITY_OF_TOTAL);
         return professor;
     }
@@ -120,7 +116,6 @@ public class ProfessorResourceIntTest {
         Professor testProfessor = professorList.get(professorList.size() - 1);
         assertThat(testProfessor.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testProfessor.getJob()).isEqualTo(DEFAULT_JOB);
-        assertThat(testProfessor.getFreeCapacityOfYear()).isEqualTo(DEFAULT_FREE_CAPACITY_OF_YEAR);
         assertThat(testProfessor.getFreeCapacityOfTotal()).isEqualTo(DEFAULT_FREE_CAPACITY_OF_TOTAL);
 
         // Validate the Professor in Elasticsearch
@@ -178,7 +173,6 @@ public class ProfessorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(professor.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].job").value(hasItem(DEFAULT_JOB.toString())))
-            .andExpect(jsonPath("$.[*].freeCapacityOfYear").value(hasItem(DEFAULT_FREE_CAPACITY_OF_YEAR)))
             .andExpect(jsonPath("$.[*].freeCapacityOfTotal").value(hasItem(DEFAULT_FREE_CAPACITY_OF_TOTAL)));
     }
 
@@ -195,7 +189,6 @@ public class ProfessorResourceIntTest {
             .andExpect(jsonPath("$.id").value(professor.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.job").value(DEFAULT_JOB.toString()))
-            .andExpect(jsonPath("$.freeCapacityOfYear").value(DEFAULT_FREE_CAPACITY_OF_YEAR))
             .andExpect(jsonPath("$.freeCapacityOfTotal").value(DEFAULT_FREE_CAPACITY_OF_TOTAL));
     }
 
@@ -220,7 +213,6 @@ public class ProfessorResourceIntTest {
         updatedProfessor
             .name(UPDATED_NAME)
             .job(UPDATED_JOB)
-            .freeCapacityOfYear(UPDATED_FREE_CAPACITY_OF_YEAR)
             .freeCapacityOfTotal(UPDATED_FREE_CAPACITY_OF_TOTAL);
 
         restProfessorMockMvc.perform(put("/api/professors")
@@ -234,7 +226,6 @@ public class ProfessorResourceIntTest {
         Professor testProfessor = professorList.get(professorList.size() - 1);
         assertThat(testProfessor.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testProfessor.getJob()).isEqualTo(UPDATED_JOB);
-        assertThat(testProfessor.getFreeCapacityOfYear()).isEqualTo(UPDATED_FREE_CAPACITY_OF_YEAR);
         assertThat(testProfessor.getFreeCapacityOfTotal()).isEqualTo(UPDATED_FREE_CAPACITY_OF_TOTAL);
 
         // Validate the Professor in Elasticsearch
@@ -296,7 +287,6 @@ public class ProfessorResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(professor.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].job").value(hasItem(DEFAULT_JOB.toString())))
-            .andExpect(jsonPath("$.[*].freeCapacityOfYear").value(hasItem(DEFAULT_FREE_CAPACITY_OF_YEAR)))
             .andExpect(jsonPath("$.[*].freeCapacityOfTotal").value(hasItem(DEFAULT_FREE_CAPACITY_OF_TOTAL)));
     }
 

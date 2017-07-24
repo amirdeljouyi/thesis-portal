@@ -23,7 +23,7 @@
         <div class="form-group">
             <label class="form-control-label" for="field_capacityOfYear">Capacity Of Year</label>
             <input type="number" class="form-control" name="capacityOfYear" id="field_capacityOfYear"
-                [(ngModel)]="level.capacityOfYear" min="0" max="15" />
+                [(ngModel)]="level.capacityOfYear" min="0" max="20" />
             <div [hidden]="!(editForm.controls.capacityOfYear?.dirty && editForm.controls.capacityOfYear?.invalid)">
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfYear?.errors?.min">
@@ -31,7 +31,7 @@
                 </small>
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfYear?.errors?.max">
-                    This field cannot be more than 15.
+                    This field cannot be more than 20.
                 </small>
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfYear?.errors?.number">
@@ -42,7 +42,7 @@
         <div class="form-group">
             <label class="form-control-label" for="field_capacityOfTotal">Capacity Of Total</label>
             <input type="number" class="form-control" name="capacityOfTotal" id="field_capacityOfTotal"
-                [(ngModel)]="level.capacityOfTotal" min="0" max="40" />
+                [(ngModel)]="level.capacityOfTotal" min="0" max="50" />
             <div [hidden]="!(editForm.controls.capacityOfTotal?.dirty && editForm.controls.capacityOfTotal?.invalid)">
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfTotal?.errors?.min">
@@ -50,7 +50,7 @@
                 </small>
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfTotal?.errors?.max">
-                    This field cannot be more than 40.
+                    This field cannot be more than 50.
                 </small>
                 <small class="form-text text-danger"
                     [hidden]="!editForm.controls.capacityOfTotal?.errors?.number">

@@ -5,7 +5,6 @@ export class Professor implements BaseEntity {
         public id?: number,
         public name?: string,
         public job?: string,
-        public freeCapacityOfYear?: number,
         public freeCapacityOfTotal?: number,
         public referees?: BaseEntity[],
         public advisers?: BaseEntity[],

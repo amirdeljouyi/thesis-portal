@@ -35,9 +35,7 @@ public class Professor implements Serializable {
     @Column(name = "job")
     private String job;
 
-    @Column(name = "free_capacity_of_year")
-    private Integer freeCapacityOfYear;
-
+    @Min(value = 0)
     @Column(name = "free_capacity_of_total")
     private Integer freeCapacityOfTotal;
 
@@ -91,19 +89,6 @@ public class Professor implements Serializable {
 
     public void setJob(String job) {
         this.job = job;
-    }
-
-    public Integer getFreeCapacityOfYear() {
-        return freeCapacityOfYear;
-    }
-
-    public Professor freeCapacityOfYear(Integer freeCapacityOfYear) {
-        this.freeCapacityOfYear = freeCapacityOfYear;
-        return this;
-    }
-
-    public void setFreeCapacityOfYear(Integer freeCapacityOfYear) {
-        this.freeCapacityOfYear = freeCapacityOfYear;
     }
 
     public Integer getFreeCapacityOfTotal() {
@@ -233,7 +218,6 @@ public class Professor implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", job='" + getJob() + "'" +
-            ", freeCapacityOfYear='" + getFreeCapacityOfYear() + "'" +
             ", freeCapacityOfTotal='" + getFreeCapacityOfTotal() + "'" +
             "}";
     }

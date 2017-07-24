@@ -13,6 +13,8 @@
     <include file="config/liquibase/changelog/20170720092031_added_entity_Adviser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092032_added_entity_Supervisor.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+
+    <include file="config/liquibase/changelog/20170720092027_added_entity_constraints_Student.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092027_added_entity_constraints_Professor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092029_added_entity_constraints_Thesis.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092030_added_entity_constraints_Referee.xml" relativeToChangelogFile="false"/>

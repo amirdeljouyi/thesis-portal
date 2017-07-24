@@ -15,7 +15,7 @@
                 "max"
             ],
             "fieldValidateRulesMin": 0,
-            "fieldValidateRulesMax": 15
+            "fieldValidateRulesMax": 20
         },
         {
             "fieldName": "capacityOfTotal",
@@ -25,7 +25,7 @@
                 "max"
             ],
             "fieldValidateRulesMin": 0,
-            "fieldValidateRulesMax": 40
+            "fieldValidateRulesMax": 50
         }
     ],
     "changelogDate": "20170720092028",

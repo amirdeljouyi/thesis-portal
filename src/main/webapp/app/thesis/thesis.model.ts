@@ -10,6 +10,7 @@ export class Thesis implements BaseEntity {
         public locationOfDefense?: string,
         public fileContentType?: string,
         public file?: any,
+        public numOfReferee?: number,
         public student?: BaseEntity,
         public referees?: BaseEntity[],
     ) {

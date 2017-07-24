@@ -44,6 +44,16 @@
             "fieldName": "file",
             "fieldType": "byte[]",
             "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "numOfReferee",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "max",
+                "min"
+            ],
+            "fieldValidateRulesMax": 2,
+            "fieldValidateRulesMin": 0
         }
     ],
     "changelogDate": "20170720092029",

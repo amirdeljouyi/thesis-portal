@@ -41,12 +41,13 @@
             "fieldType": "String"
         },
         {
-            "fieldName": "freeCapacityOfYear",
-            "fieldType": "Integer"
-        },
-        {
             "fieldName": "freeCapacityOfTotal",
-            "fieldType": "Integer"
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "min"
+            ],
+            "fieldValidateRulesMin": 0
+            
         }
     ],
     "changelogDate": "20170720092027",

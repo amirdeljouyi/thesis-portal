@@ -2,9 +2,9 @@ entity Student {
 	name String required
     status Status required
     yearOfEnter Integer required
-	numOfSupervisor Integer max(2)
-	numOfAdviser Integer max(2)
-	studentNumber Long required min(1000000000) max(9999999999)
+d	numOfSupervisor Integer max(2)
+d	numOfAdviser Integer max(2)
+	studentNumber Long required min(d000000000) max(9999999999)
 }
 
 enum Status {
@@ -14,14 +14,13 @@ enum Status {
 entity Professor {
 	name String required minlength(3)
     job String
-    freeCapacityOfYear Integer
-	freeCapacityOfTotal Integer
+a	freeCapacityOfTotal Integer min(0)
 }
 
 entity Level {
 	level ProfessorLevel
-    capacityOfYear Integer min(0) max(15)
-    capacityOfTotal Integer min(0) max(40)
+    capacityOfYear Integer min(0) max(20)
+    capacityOfTotal Integer min(0) max(50)
 }
 
 enum ProfessorLevel {
@@ -35,20 +34,21 @@ entity Thesis {
     dayOfDefense Instant
     locationOfDefense String
     file Blob
+d   numOfReferee Integer max(2) min(0)
 }
 
 entity Referee {
-	name String
+a	name String
 }
 
 entity Adviser {
-	name String
-	startTime Instant required
+a	name String
+a	startTime Instant required
 }
 
 entity Supervisor {
-	name String
-	startTime Instant required 
+a	name String
+a	startTime Instant required 
 }
 
 // relation 
@@ -78,11 +78,3 @@ relationship ManyToOne {
 // Set pagination options
 paginate Professor, Student with infinite-scroll
 paginate Thesis, Level, Adviser, Supervisor, Referee with pagination
-
-
-// dto * with mapstruct
-
-// Set service options to all except few
-// service all with serviceImpl except Employee, Job
-// Set an angular suffix
-// angularSuffix * with mySuffix

@@ -61,6 +61,9 @@ public class ThesisResourceIntTest {
     private static final String DEFAULT_FILE_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_FILE_CONTENT_TYPE = "image/png";
 
+    private static final Integer DEFAULT_NUM_OF_REFEREE = 0;
+    private static final Integer UPDATED_NUM_OF_REFEREE = 1;
+
     @Autowired
     private ThesisRepository thesisRepository;
 
@@ -107,7 +110,8 @@ public class ThesisResourceIntTest {
             .dayOfDefense(DEFAULT_DAY_OF_DEFENSE)
             .locationOfDefense(DEFAULT_LOCATION_OF_DEFENSE)
             .file(DEFAULT_FILE)
-            .fileContentType(DEFAULT_FILE_CONTENT_TYPE);
+            .fileContentType(DEFAULT_FILE_CONTENT_TYPE)
+            .numOfReferee(DEFAULT_NUM_OF_REFEREE);
         return thesis;
     }
 
@@ -139,6 +143,7 @@ public class ThesisResourceIntTest {
         assertThat(testThesis.getLocationOfDefense()).isEqualTo(DEFAULT_LOCATION_OF_DEFENSE);
         assertThat(testThesis.getFile()).isEqualTo(DEFAULT_FILE);
         assertThat(testThesis.getFileContentType()).isEqualTo(DEFAULT_FILE_CONTENT_TYPE);
+        assertThat(testThesis.getNumOfReferee()).isEqualTo(DEFAULT_NUM_OF_REFEREE);
 
         // Validate the Thesis in Elasticsearch
         Thesis thesisEs = thesisSearchRepository.findOne(testThesis.getId());
@@ -199,7 +204,8 @@ public class ThesisResourceIntTest {
             .andExpect(jsonPath("$.[*].dayOfDefense").value(hasItem(DEFAULT_DAY_OF_DEFENSE.toString())))
             .andExpect(jsonPath("$.[*].locationOfDefense").value(hasItem(DEFAULT_LOCATION_OF_DEFENSE.toString())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].numOfReferee").value(hasItem(DEFAULT_NUM_OF_REFEREE)));
     }
 
     @Test
@@ -219,7 +225,8 @@ public class ThesisResourceIntTest {
             .andExpect(jsonPath("$.dayOfDefense").value(DEFAULT_DAY_OF_DEFENSE.toString()))
             .andExpect(jsonPath("$.locationOfDefense").value(DEFAULT_LOCATION_OF_DEFENSE.toString()))
             .andExpect(jsonPath("$.fileContentType").value(DEFAULT_FILE_CONTENT_TYPE))
-            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)));
+            .andExpect(jsonPath("$.file").value(Base64Utils.encodeToString(DEFAULT_FILE)))
+            .andExpect(jsonPath("$.numOfReferee").value(DEFAULT_NUM_OF_REFEREE));
     }
 
     @Test
@@ -247,7 +254,8 @@ public class ThesisResourceIntTest {
             .dayOfDefense(UPDATED_DAY_OF_DEFENSE)
             .locationOfDefense(UPDATED_LOCATION_OF_DEFENSE)
             .file(UPDATED_FILE)
-            .fileContentType(UPDATED_FILE_CONTENT_TYPE);
+            .fileContentType(UPDATED_FILE_CONTENT_TYPE)
+            .numOfReferee(UPDATED_NUM_OF_REFEREE);
 
         restThesisMockMvc.perform(put("/api/theses")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -265,6 +273,7 @@ public class ThesisResourceIntTest {
         assertThat(testThesis.getLocationOfDefense()).isEqualTo(UPDATED_LOCATION_OF_DEFENSE);
         assertThat(testThesis.getFile()).isEqualTo(UPDATED_FILE);
         assertThat(testThesis.getFileContentType()).isEqualTo(UPDATED_FILE_CONTENT_TYPE);
+        assertThat(testThesis.getNumOfReferee()).isEqualTo(UPDATED_NUM_OF_REFEREE);
 
         // Validate the Thesis in Elasticsearch
         Thesis thesisEs = thesisSearchRepository.findOne(testThesis.getId());
@@ -329,7 +338,8 @@ public class ThesisResourceIntTest {
             .andExpect(jsonPath("$.[*].dayOfDefense").value(hasItem(DEFAULT_DAY_OF_DEFENSE.toString())))
             .andExpect(jsonPath("$.[*].locationOfDefense").value(hasItem(DEFAULT_LOCATION_OF_DEFENSE.toString())))
             .andExpect(jsonPath("$.[*].fileContentType").value(hasItem(DEFAULT_FILE_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))));
+            .andExpect(jsonPath("$.[*].file").value(hasItem(Base64Utils.encodeToString(DEFAULT_FILE))))
+            .andExpect(jsonPath("$.[*].numOfReferee").value(hasItem(DEFAULT_NUM_OF_REFEREE)));
     }
 
     @Test

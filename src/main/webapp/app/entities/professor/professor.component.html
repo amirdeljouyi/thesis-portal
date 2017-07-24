@@ -32,7 +32,6 @@
             <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="job"><span>Job</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="freeCapacityOfYear"><span>Free Capacity Of Year</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="freeCapacityOfTotal"><span>Free Capacity Of Total</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="level.level"><span>Level</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -43,7 +42,6 @@
                 <td><a [routerLink]="['../professor', professor.id ]">{{professor.id}}</a></td>
                 <td>{{professor.name}}</td>
                 <td>{{professor.job}}</td>
-                <td>{{professor.freeCapacityOfYear}}</td>
                 <td>{{professor.freeCapacityOfTotal}}</td>
                 <td>
                     <div *ngIf="professor.level">

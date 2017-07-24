@@ -51,6 +51,11 @@ public class Thesis implements Serializable {
     @Column(name = "jhi_file_content_type")
     private String fileContentType;
 
+    @Min(value = 0)
+    @Max(value = 2)
+    @Column(name = "num_of_referee")
+    private Integer numOfReferee;
+
     @OneToOne
     @JoinColumn(unique = true)
     private Student student;
@@ -159,6 +164,19 @@ public class Thesis implements Serializable {
         this.fileContentType = fileContentType;
     }
 
+    public Integer getNumOfReferee() {
+        return numOfReferee;
+    }
+
+    public Thesis numOfReferee(Integer numOfReferee) {
+        this.numOfReferee = numOfReferee;
+        return this;
+    }
+
+    public void setNumOfReferee(Integer numOfReferee) {
+        this.numOfReferee = numOfReferee;
+    }
+
     public Student getStudent() {
         return student;
     }
@@ -228,6 +246,7 @@ public class Thesis implements Serializable {
             ", locationOfDefense='" + getLocationOfDefense() + "'" +
             ", file='" + getFile() + "'" +
             ", fileContentType='" + fileContentType + "'" +
+            ", numOfReferee='" + getNumOfReferee() + "'" +
             "}";
     }
 }

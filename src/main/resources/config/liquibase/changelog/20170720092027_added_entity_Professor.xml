@@ -30,10 +30,6 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="free_capacity_of_year" type="integer">
-                <constraints nullable="true" />
-            </column>
-
             <column name="free_capacity_of_total" type="integer">
                 <constraints nullable="true" />
             </column>

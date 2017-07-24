@@ -7,6 +7,12 @@
         Added the constraints for entity Thesis.
     -->
     <changeSet id="20170720092029-2" author="jhipster">
+
+        <addDefaultValue
+            columnDataType="int"
+            columnName="num_of_referee"
+            defaultValue="0"
+            tableName="thesis"/>
         
         <addForeignKeyConstraint baseColumnNames="student_id"
                                  baseTableName="thesis"

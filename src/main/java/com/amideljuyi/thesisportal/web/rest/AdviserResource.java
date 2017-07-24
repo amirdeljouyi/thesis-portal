@@ -2,9 +2,11 @@ package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.amideljuyi.thesisportal.domain.Adviser;
-
+import com.amideljuyi.thesisportal.domain.Student;
 import com.amideljuyi.thesisportal.repository.AdviserRepository;
+import com.amideljuyi.thesisportal.repository.StudentRepository;
 import com.amideljuyi.thesisportal.repository.search.AdviserSearchRepository;
+import com.amideljuyi.thesisportal.repository.search.StudentSearchRepository;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
 import com.amideljuyi.thesisportal.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -44,7 +46,13 @@ public class AdviserResource {
 
     private final AdviserSearchRepository adviserSearchRepository;
 
-    public AdviserResource(AdviserRepository adviserRepository, AdviserSearchRepository adviserSearchRepository) {
+    private final StudentRepository studentRepository;
+
+    private final StudentSearchRepository studentSearchRepository;
+
+    public AdviserResource(AdviserRepository adviserRepository, AdviserSearchRepository adviserSearchRepository,StudentRepository studentRepository, StudentSearchRepository studentSearchRepository) {
+        this.studentRepository = studentRepository;
+        this.studentSearchRepository = studentSearchRepository;
         this.adviserRepository = adviserRepository;
         this.adviserSearchRepository = adviserSearchRepository;
     }
@@ -63,8 +71,14 @@ public class AdviserResource {
         if (adviser.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new adviser cannot already have an ID")).body(null);
         }
+        Student student =adviser.getStudent();
+        student.setNumOfAdviser(student.getNumOfAdviser()+1);
+        studentRepository.save(student);
+        studentSearchRepository.save(student);
+
         Adviser result = adviserRepository.save(adviser);
         adviserSearchRepository.save(result);
+        
         return ResponseEntity.created(new URI("/api/advisers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
             .body(result);
