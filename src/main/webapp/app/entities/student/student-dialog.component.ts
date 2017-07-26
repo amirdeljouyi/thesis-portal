@@ -48,6 +48,8 @@ export class StudentDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.studentService.update(this.student));
         } else {
+            this.student.numOfAdviser = 0;
+            this.student.numOfSupervisor = 0;
             this.subscribeToSaveResponse(
                 this.studentService.create(this.student));
         }

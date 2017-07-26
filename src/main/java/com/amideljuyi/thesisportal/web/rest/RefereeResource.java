@@ -2,9 +2,12 @@ package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.amideljuyi.thesisportal.domain.Referee;
-
+import com.amideljuyi.thesisportal.domain.Thesis;
 import com.amideljuyi.thesisportal.repository.RefereeRepository;
+import com.amideljuyi.thesisportal.repository.ThesisRepository;
 import com.amideljuyi.thesisportal.repository.search.RefereeSearchRepository;
+import com.amideljuyi.thesisportal.repository.search.ThesisSearchRepository;
+import com.amideljuyi.thesisportal.web.rest.errors.ErrorVM;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
 import com.amideljuyi.thesisportal.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -43,7 +46,14 @@ public class RefereeResource {
 
     private final RefereeSearchRepository refereeSearchRepository;
 
-    public RefereeResource(RefereeRepository refereeRepository, RefereeSearchRepository refereeSearchRepository) {
+    private final ThesisRepository thesisRepository;
+
+    private final ThesisSearchRepository thesisSearchRepository;
+
+    public RefereeResource(RefereeRepository refereeRepository, RefereeSearchRepository refereeSearchRepository,
+            ThesisRepository thesisRepository, ThesisSearchRepository thesisSearchRepository) {
+        this.thesisRepository = thesisRepository;
+        this.thesisSearchRepository = thesisSearchRepository;
         this.refereeRepository = refereeRepository;
         this.refereeSearchRepository = refereeSearchRepository;
     }
@@ -58,15 +68,27 @@ public class RefereeResource {
     @PostMapping("/referees")
     @Timed
     public ResponseEntity<Referee> createReferee(@RequestBody Referee referee) throws URISyntaxException {
+        referee.setName(referee.getProfessor().getName() + "-" + referee.getThesis().getTitle());
+
         log.debug("REST request to save Referee : {}", referee);
         if (referee.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new referee cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new referee cannot already have an ID"))
+                    .body(null);
         }
+
+        ErrorVM validationError = validation(referee.getThesis());
+
+        if (validationError != null)
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+                    validationError.getMessage(), validationError.getDescription())).body(null);
+        
+        updateThesis(referee.getThesis(),+1);
+
         Referee result = refereeRepository.save(referee);
         refereeSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/referees/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     /**
@@ -85,11 +107,23 @@ public class RefereeResource {
         if (referee.getId() == null) {
             return createReferee(referee);
         }
+
+        Referee lastThesis = refereeRepository.findOne(referee.getId());
+        boolean isThesisChanged = !lastThesis.getThesis().equals(referee.getThesis());
+        ErrorVM validationError = isThesisChanged ? validation(referee.getThesis()) : null;
+        
+        if (validationError != null)
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+                    validationError.getMessage(), validationError.getDescription())).body(null);
+        if(isThesisChanged){
+            updateThesis(referee.getThesis(), +1);
+            updateThesis(lastThesis.getThesis(), -1);
+        }
+
         Referee result = refereeRepository.save(referee);
         refereeSearchRepository.save(result);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, referee.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, referee.getId().toString()))
+                .body(result);
     }
 
     /**
@@ -131,6 +165,8 @@ public class RefereeResource {
     @Timed
     public ResponseEntity<Void> deleteReferee(@PathVariable Long id) {
         log.debug("REST request to delete Referee : {}", id);
+        // update thesis
+        updateThesis(refereeRepository.findOne(id).getThesis() , -1);
         refereeRepository.delete(id);
         refereeSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -151,6 +187,17 @@ public class RefereeResource {
         Page<Referee> page = refereeSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/referees");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    private void updateThesis(Thesis thesis,int value){
+        thesis.setNumOfReferee(thesis.getNumOfReferee() + value);
+        thesisRepository.save(thesis);
+        thesisSearchRepository.save(thesis);
+    }
+    private ErrorVM validation(Thesis thesis){
+        if(thesis.getNumOfReferee()>1)
+            return new ErrorVM( "thesishaveenoughreferees", "Thesis have enough referees");
+        else return null;
     }
 
 }

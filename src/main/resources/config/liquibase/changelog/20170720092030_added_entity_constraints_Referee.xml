@@ -7,6 +7,12 @@
         Added the constraints for entity Referee.
     -->
     <changeSet id="20170720092030-2" author="jhipster">
+        <createIndex indexName="idx_referee"
+                tableName="referee"
+                unique="true">
+            <column name="thesis_id" type="bigint(20)"/>
+            <column name="professor_id" type="bigint(20)"/>
+        </createIndex>
         
         <addForeignKeyConstraint baseColumnNames="thesis_id"
                                  baseTableName="referee"

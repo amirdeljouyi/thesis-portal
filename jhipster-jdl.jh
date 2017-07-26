@@ -2,8 +2,8 @@ entity Student {
 	name String required
     status Status required
     yearOfEnter Integer required
-d	numOfSupervisor Integer max(2)
-d	numOfAdviser Integer max(2)
+cud	numOfSupervisor Integer max(2)
+cud	numOfAdviser Integer max(2)
 	studentNumber Long required min(d000000000) max(9999999999)
 }
 
@@ -14,13 +14,13 @@ enum Status {
 entity Professor {
 	name String required minlength(3)
     job String
-a	freeCapacityOfTotal Integer min(0)
+c	freeCapityOfTotal Integer min(0)
 }
 
 entity Level {
 	level ProfessorLevel
-    capacityOfYear Integer min(0) max(20)
-    capacityOfTotal Integer min(0) max(50)
+    capityOfYear Integer min(0) max(20)
+    capityOfTotal Integer min(0) max(50)
 }
 
 enum ProfessorLevel {
@@ -34,21 +34,21 @@ entity Thesis {
     dayOfDefense Instant
     locationOfDefense String
     file Blob
-d   numOfReferee Integer max(2) min(0)
+cud numOfReferee Integer max(2) min(0)
 }
 
 entity Referee {
-a	name String
+	name String
 }
 
 entity Adviser {
-a	name String
-a	startTime Instant required
+	name String
+	startTime Instant required
 }
 
 entity Supervisor {
-a	name String
-a	startTime Instant required 
+	name String
+	startTime Instant required 
 }
 
 // relation 

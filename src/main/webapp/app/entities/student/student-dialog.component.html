@@ -53,36 +53,6 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_numOfSupervisor">Num Of Supervisor</label>
-            <input type="number" class="form-control" name="numOfSupervisor" id="field_numOfSupervisor"
-                [(ngModel)]="student.numOfSupervisor" max="2" />
-            <div [hidden]="!(editForm.controls.numOfSupervisor?.dirty && editForm.controls.numOfSupervisor?.invalid)">
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.numOfSupervisor?.errors?.max">
-                    This field cannot be more than 2.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.numOfSupervisor?.errors?.number">
-                    This field should be a number.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" for="field_numOfAdviser">Num Of Adviser</label>
-            <input type="number" class="form-control" name="numOfAdviser" id="field_numOfAdviser"
-                [(ngModel)]="student.numOfAdviser" max="2" />
-            <div [hidden]="!(editForm.controls.numOfAdviser?.dirty && editForm.controls.numOfAdviser?.invalid)">
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.numOfAdviser?.errors?.max">
-                    This field cannot be more than 2.
-                </small>
-                <small class="form-text text-danger"
-                    [hidden]="!editForm.controls.numOfAdviser?.errors?.number">
-                    This field should be a number.
-                </small>
-            </div>
-        </div>
-        <div class="form-group">
             <label class="form-control-label" for="field_studentNumber">Student Number</label>
             <input type="number" class="form-control" name="studentNumber" id="field_studentNumber"
                 [(ngModel)]="student.studentNumber" required min="1000000000" max="9999999999" />

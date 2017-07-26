@@ -107,6 +107,8 @@
                     <td>{{thesis.majorTitle}}</td>
                     <td>{{thesis.summary}}</td>
                     <td>{{thesis.numOfReferee}}
+                        <span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
+                    </td>
                     <td>{{thesis.dayOfDefense | date:'medium'}}</td>
                     <td>{{thesis.locationOfDefense}}</td>
                     <td>

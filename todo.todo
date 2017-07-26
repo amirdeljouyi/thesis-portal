@@ -1,0 +1,10 @@
+☐ thesis number
+☐ create index for supervisor , referee , advisor 
+☐ update supervisor , referee , advisor
+☐ delete supervisor , referee , advisor
+☐ if num of supervisor > 1 ->
+     professor(1).freecapacityoftotal ++ ;
+     professor(2).freecapacityoftotal -- ;
+     
+☐  change mode for student
+    ☐  in edit validation required

@@ -1,9 +1,12 @@
 package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.amideljuyi.thesisportal.domain.Professor;
 import com.amideljuyi.thesisportal.domain.Student;
-
+import com.amideljuyi.thesisportal.domain.enumeration.Status;
+import com.amideljuyi.thesisportal.repository.ProfessorRepository;
 import com.amideljuyi.thesisportal.repository.StudentRepository;
+import com.amideljuyi.thesisportal.repository.search.ProfessorSearchRepository;
 import com.amideljuyi.thesisportal.repository.search.StudentSearchRepository;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
 import com.amideljuyi.thesisportal.web.rest.util.PaginationUtil;
@@ -44,7 +47,14 @@ public class StudentResource {
 
     private final StudentSearchRepository studentSearchRepository;
 
-    public StudentResource(StudentRepository studentRepository, StudentSearchRepository studentSearchRepository) {
+    private final ProfessorRepository professorRepository;
+
+    private final ProfessorSearchRepository professorSearchRepository;
+
+    public StudentResource(StudentRepository studentRepository, StudentSearchRepository studentSearchRepository,
+            ProfessorRepository professorRepository, ProfessorSearchRepository professorSearchRepository) {
+        this.professorRepository = professorRepository;
+        this.professorSearchRepository = professorSearchRepository;
         this.studentRepository = studentRepository;
         this.studentSearchRepository = studentSearchRepository;
     }
@@ -61,13 +71,14 @@ public class StudentResource {
     public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) throws URISyntaxException {
         log.debug("REST request to save Student : {}", student);
         if (student.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new student cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new student cannot already have an ID"))
+                    .body(null);
         }
         Student result = studentRepository.save(student);
         studentSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/students/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
     }
 
     /**
@@ -86,11 +97,26 @@ public class StudentResource {
         if (student.getId() == null) {
             return createStudent(student);
         }
+
+        Student lastStudent = studentRepository.findOne(student.getId());
+
+        if (lastStudent.getStatus() == Status.INPRORGESS && student.getStatus() != Status.INPRORGESS) {
+            if (student.getNumOfSupervisor() == 2)
+                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +1));
+            else
+                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +2));
+        } else if (lastStudent.getStatus() != Status.INPRORGESS && student.getStatus() == Status.INPRORGESS) {
+            // validation required
+            if (student.getNumOfSupervisor() == 2)
+                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -1));
+            else
+                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -2));
+        }
+
         Student result = studentRepository.save(student);
         studentSearchRepository.save(result);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, student.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, student.getId().toString()))
+                .body(result);
     }
 
     /**
@@ -102,13 +128,14 @@ public class StudentResource {
      */
     @GetMapping("/students")
     @Timed
-    public ResponseEntity<List<Student>> getAllStudents(@ApiParam Pageable pageable, @RequestParam(required = false) String filter) {
+    public ResponseEntity<List<Student>> getAllStudents(@ApiParam Pageable pageable,
+            @RequestParam(required = false) String filter) {
         if ("thesis-is-null".equals(filter)) {
             log.debug("REST request to get all Students where thesis is null");
-            return new ResponseEntity<>(StreamSupport
-                .stream(studentRepository.findAll().spliterator(), false)
-                .filter(student -> student.getThesis() == null)
-                .collect(Collectors.toList()), HttpStatus.OK);
+            return new ResponseEntity<>(
+                    StreamSupport.stream(studentRepository.findAll().spliterator(), false)
+                            .filter(student -> student.getThesis() == null).collect(Collectors.toList()),
+                    HttpStatus.OK);
         }
         log.debug("REST request to get a page of Students");
         Page<Student> page = studentRepository.findAll(pageable);
@@ -160,6 +187,12 @@ public class StudentResource {
         Page<Student> page = studentSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/students");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    private void updateProfessor(Professor professor, int value) {
+        professor.setFreeCapacityOfTotal(professor.getFreeCapacityOfTotal() + value);
+        professorRepository.save(professor);
+        professorSearchRepository.save(professor);
     }
 
 }

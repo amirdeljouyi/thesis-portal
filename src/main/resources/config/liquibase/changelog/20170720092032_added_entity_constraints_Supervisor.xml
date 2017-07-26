@@ -7,6 +7,13 @@
         Added the constraints for entity Supervisor.
     -->
     <changeSet id="20170720092032-2" author="jhipster">
+
+        <createIndex indexName="idx_supervisor"
+                tableName="supervisor"
+                unique="true">
+            <column name="student_id" type="bigint(20)"/>
+            <column name="professor_id" type="bigint(20)"/>
+        </createIndex>
         
         <addForeignKeyConstraint baseColumnNames="professor_id"
                                  baseTableName="supervisor"

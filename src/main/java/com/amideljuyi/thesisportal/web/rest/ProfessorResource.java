@@ -59,6 +59,7 @@ public class ProfessorResource {
     @PostMapping("/professors")
     @Timed
     public ResponseEntity<Professor> createProfessor(@Valid @RequestBody Professor professor) throws URISyntaxException {
+        professor.setFreeCapacityOfTotal(professor.getLevel().getCapacityOfTotal());
         log.debug("REST request to save Professor : {}", professor);
         if (professor.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new professor cannot already have an ID")).body(null);

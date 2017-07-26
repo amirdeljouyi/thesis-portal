@@ -28,8 +28,7 @@ public class Adviser implements Serializable {
     @Column(name = "name")
     private String name;
 
-    @NotNull
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private Instant startTime;
 
     @ManyToOne

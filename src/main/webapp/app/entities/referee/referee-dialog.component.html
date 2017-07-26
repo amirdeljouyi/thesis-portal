@@ -13,12 +13,6 @@
                    [(ngModel)]="referee.id" readonly />
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_name">Name</label>
-            <input type="text" class="form-control" name="name" id="field_name"
-                [(ngModel)]="referee.name"  />
-        </div>
-
-        <div class="form-group">
             <label for="field_thesis">Thesis</label>
             <select class="form-control" id="field_thesis" name="thesis" [(ngModel)]="referee.thesis" >
                 <option [ngValue]="null"></option>

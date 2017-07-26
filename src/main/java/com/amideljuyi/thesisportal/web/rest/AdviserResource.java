@@ -7,6 +7,7 @@ import com.amideljuyi.thesisportal.repository.AdviserRepository;
 import com.amideljuyi.thesisportal.repository.StudentRepository;
 import com.amideljuyi.thesisportal.repository.search.AdviserSearchRepository;
 import com.amideljuyi.thesisportal.repository.search.StudentSearchRepository;
+import com.amideljuyi.thesisportal.web.rest.errors.ErrorVM;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
 import com.amideljuyi.thesisportal.web.rest.util.PaginationUtil;
 import io.swagger.annotations.ApiParam;
@@ -23,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,7 +51,8 @@ public class AdviserResource {
 
     private final StudentSearchRepository studentSearchRepository;
 
-    public AdviserResource(AdviserRepository adviserRepository, AdviserSearchRepository adviserSearchRepository,StudentRepository studentRepository, StudentSearchRepository studentSearchRepository) {
+    public AdviserResource(AdviserRepository adviserRepository, AdviserSearchRepository adviserSearchRepository,
+            StudentRepository studentRepository, StudentSearchRepository studentSearchRepository) {
         this.studentRepository = studentRepository;
         this.studentSearchRepository = studentSearchRepository;
         this.adviserRepository = adviserRepository;
@@ -67,21 +69,29 @@ public class AdviserResource {
     @PostMapping("/advisers")
     @Timed
     public ResponseEntity<Adviser> createAdviser(@Valid @RequestBody Adviser adviser) throws URISyntaxException {
+        adviser.setName(adviser.getProfessor().getName() + "-" + adviser.getStudent().getName());
+        adviser.startTime(Instant.now());
+
         log.debug("REST request to save Adviser : {}", adviser);
         if (adviser.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new adviser cannot already have an ID")).body(null);
+            return ResponseEntity.badRequest().headers(
+                    HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new adviser cannot already have an ID"))
+                    .body(null);
         }
-        Student student =adviser.getStudent();
-        student.setNumOfAdviser(student.getNumOfAdviser()+1);
-        studentRepository.save(student);
-        studentSearchRepository.save(student);
+        ErrorVM validationError = validation(adviser);
+
+        if (validationError != null)
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+                    validationError.getMessage(), validationError.getDescription())).body(null);
+        
+        updateStudent(adviser.getStudent(), +1);
 
         Adviser result = adviserRepository.save(adviser);
         adviserSearchRepository.save(result);
-        
+
         return ResponseEntity.created(new URI("/api/advisers/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+                .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString())).body(result);
+
     }
 
     /**
@@ -100,11 +110,23 @@ public class AdviserResource {
         if (adviser.getId() == null) {
             return createAdviser(adviser);
         }
+
+        Adviser lastAdviser = adviserRepository.findOne(adviser.getId());
+        boolean isStudentChanged = !lastAdviser.getStudent().equals(adviser.getStudent());
+        ErrorVM validationError = isStudentChanged ? validation(adviser) : null;
+        
+        if (validationError != null)
+            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME,
+                    validationError.getMessage(), validationError.getDescription())).body(null);
+        if(isStudentChanged){
+            updateStudent(adviser.getStudent(), +1);
+            updateStudent(lastAdviser.getStudent(), -1);
+        }
+
         Adviser result = adviserRepository.save(adviser);
         adviserSearchRepository.save(result);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, adviser.getId().toString()))
-            .body(result);
+        return ResponseEntity.ok().headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, adviser.getId().toString()))
+                .body(result);
     }
 
     /**
@@ -146,6 +168,9 @@ public class AdviserResource {
     @Timed
     public ResponseEntity<Void> deleteAdviser(@PathVariable Long id) {
         log.debug("REST request to delete Adviser : {}", id);
+        // update student
+        updateStudent(adviserRepository.findOne(id).getStudent() , -1);
+
         adviserRepository.delete(id);
         adviserSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();
@@ -166,6 +191,18 @@ public class AdviserResource {
         Page<Adviser> page = adviserSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/advisers");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    private void updateStudent(Student student, int value) {
+        student.setNumOfAdviser(student.getNumOfAdviser() + value);
+        studentRepository.save(student);
+        studentSearchRepository.save(student);
+    }
+    private ErrorVM validation(Adviser adviser) {
+        if (adviser.getStudent().getNumOfAdviser() > 1)
+            return new ErrorVM("studenthaveenoughadviser", "Student have 2 adviser before");
+        else
+            return null;
     }
 
 }
