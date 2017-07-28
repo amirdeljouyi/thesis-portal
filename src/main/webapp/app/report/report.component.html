@@ -1,0 +1,207 @@
+<div class="report">
+    <header class="heading">
+        <div class="bg1"></div>
+        <div class="bg2"></div>
+        <div class="bgmobile"></div>
+        <div class="valignout">
+            <div class="valignin">
+                <div class="row">
+                    <div class="col-sm-6 offset-sm-3 text-center">
+                        <h1 class="mb-3">Report</h1>
+                        <button class="btn btn-primary" (click)="showDialog()">
+                            <span class="" >
+                                Choose Professor
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <jhi-alert></jhi-alert>
+    <div [hidden]="!professor" class="row mb-2 mt-2">
+        <div class="col-xs-12 text-center">
+            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(0)">General</a>
+            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(1)">Thesis</a>
+            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(2)">Supervisor</a>
+            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(3)">Advisor</a>
+            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(4)">Referee</a>
+        </div>
+    </div>
+
+    <!--for nothing-->
+    <div class="row" *ngIf="professor">
+        <div *ngIf="activeTab==0 && professor" class="p-4 detail">
+            <span>Name</span>
+
+            <span>{{professor.name}}</span>
+
+            <span>Job</span>
+
+            <span>{{professor.job}}</span>
+
+            <span>Free Capacity Of Total</span>
+
+            <span>{{professor.freeCapacityOfTotal}}</span>
+
+            <span>Level</span>
+
+            <div *ngIf="professor.level">
+                <a [routerLink]="['/level', professor.level?.id]">{{professor.level?.level}}</a>
+            </div>
+        </div>
+
+        <!--for thesis-->
+        <div class="table-responsive" *ngIf="theses && activeTab==1">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="title"><span>Title</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="majorTitle"><span>Major Title</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="summary"><span>Summary</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="numOfReferee"><span>Number Of Referee</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="dayOfDefense"><span>Day Of Defense</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="locationOfDefense"><span>Location Of Defense</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="file"><span>File</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="student.name"><span>Student</span> <span class="fa fa-sort"></span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let thesis of theses ;trackBy: trackId">
+                        <td><a [routerLink]="['../thesis', thesis.id ]">{{thesis.id}}</a></td>
+                        <td>{{thesis.title}}</td>
+                        <td>{{thesis.majorTitle}}</td>
+                        <td>{{thesis.summary}}</td>
+                        <td>{{thesis.numOfReferee}}
+                            <span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
+                        </td>
+                        <td>{{thesis.dayOfDefense | date:'medium'}}</td>
+                        <td>{{thesis.locationOfDefense}}</td>
+                        <td>
+                            <a *ngIf="thesis.file" (click)="openFile(thesis.fileContentType, thesis.file)">open</a>
+                            <span *ngIf="thesis.file">{{thesis.fileContentType}}, {{byteSize(thesis.file)}}</span>
+                        </td>
+                        <td>
+                            <div *ngIf="thesis.student">
+                                <a [routerLink]="['../student', thesis.student?.id ]">{{thesis.student?.name}}</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['../thesis', thesis.id ]" class="btn btn-info btn-sm">
+                                    <span class="fa fa-eye"></span>
+                                    <span class="hidden-md-down">View</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--for adviser-->
+        <div class="table-responsive" *ngIf="advisers && activeTab==2">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="startTime"><span>Start Time</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="student.name"><span>Student</span> <span class="fa fa-sort"></span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let adviser of advisers ;trackBy: trackId">
+                        <td><a [routerLink]="['../adviser', adviser.id ]">{{adviser.id}}</a></td>
+                        <td>{{adviser.name}}</td>
+                        <td>{{adviser.startTime | date:'medium'}}</td>
+                        <td>
+                            <div *ngIf="adviser.student">
+                                <a [routerLink]="['../student', adviser.student?.id ]">{{adviser.student?.name}}</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['../adviser', adviser.id ]" class="btn btn-info btn-sm">
+                                    <span class="fa fa-eye"></span>
+                                    <span class="hidden-md-down">View</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--for superviser-->
+        <div class="table-responsive" *ngIf="supervisors && activeTab==3">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="startTime"><span>Start Time</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="student.name"><span>Student</span> <span class="fa fa-sort"></span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let supervisor of supervisors ;trackBy: trackId">
+                        <td><a [routerLink]="['../supervisor', supervisor.id ]">{{supervisor.id}}</a></td>
+                        <td>{{supervisor.name}}</td>
+                        <td>{{supervisor.startTime | date:'medium'}}</td>
+                        <td>
+                            <div *ngIf="supervisor.student">
+                                <a [routerLink]="['../student', supervisor.student?.id ]">{{supervisor.student?.name}}</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['../supervisor', supervisor.id ]" class="btn btn-info btn-sm">
+                                    <span class="fa fa-eye"></span>
+                                    <span class="hidden-md-down">View</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!--for referee-->
+        <div class="table-responsive" *ngIf="referees && activeTab==4">
+            <table class="table table-striped">
+                <thead>
+                    <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+                        <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
+                        <th jhiSortBy="thesis.title"><span>Thesis</span> <span class="fa fa-sort"></span></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let referee of referees ;trackBy: trackId">
+                        <td><a [routerLink]="['../referee', referee.id ]">{{referee.id}}</a></td>
+                        <td>{{referee.name}}</td>
+                        <td>
+                            <div *ngIf="referee.thesis">
+                                <a [routerLink]="['../thesis', referee.thesis?.id ]">{{referee.thesis?.title}}</a>
+                            </div>
+                        </td>
+                        <td class="text-right">
+                            <div class="btn-group flex-btn-group-container">
+                                <button type="submit" [routerLink]="['../referee', referee.id ]" class="btn btn-info btn-sm">
+                                    <span class="fa fa-eye"></span>
+                                    <span class="hidden-md-down">View</span>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

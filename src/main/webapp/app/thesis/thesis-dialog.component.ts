@@ -81,7 +81,6 @@ export class ThesisDialogComponent implements OnInit {
             this.subscribeToSaveResponse(
                 this.thesisService.update(this.thesis));
         } else {
-            this.thesis.numOfReferee = 0;
             this.subscribeToSaveResponse(
                 this.thesisService.create(this.thesis));
         }

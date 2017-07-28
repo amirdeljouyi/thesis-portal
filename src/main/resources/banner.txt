@@ -1,10 +1,11 @@
-
-  ${AnsiColor.GREEN}      ██╗${AnsiColor.RED} ██╗   ██╗ ████████╗ ███████╗   ██████╗ ████████╗ ████████╗ ███████╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ██║   ██║ ╚══██╔══╝ ██╔═══██╗ ██╔════╝ ╚══██╔══╝ ██╔═════╝ ██╔═══██╗
-  ${AnsiColor.GREEN}      ██║${AnsiColor.RED} ████████║    ██║    ███████╔╝ ╚█████╗     ██║    ██████╗   ███████╔╝
-  ${AnsiColor.GREEN}██╗   ██║${AnsiColor.RED} ██╔═══██║    ██║    ██╔════╝   ╚═══██╗    ██║    ██╔═══╝   ██╔══██║
-  ${AnsiColor.GREEN}╚██████╔╝${AnsiColor.RED} ██║   ██║ ████████╗ ██║       ██████╔╝    ██║    ████████╗ ██║  ╚██╗
-  ${AnsiColor.GREEN} ╚═════╝ ${AnsiColor.RED} ╚═╝   ╚═╝ ╚═══════╝ ╚═╝       ╚═════╝     ╚═╝    ╚═══════╝ ╚═╝   ╚═╝
-
-${AnsiColor.BRIGHT_BLUE}:: JHipster 🤓  :: Running Spring Boot ${spring-boot.version} ::
-:: https://jhipster.github.io ::${AnsiColor.DEFAULT}
+${AnsiColor.GREEN}       d8888               d8b         ${AnsiColor.YELLOW}8888888b.           888  d8b                   d8b
+${AnsiColor.GREEN}      d88888               Y8P         ${AnsiColor.YELLOW}888  "Y88b          888  Y8P                   Y8P
+${AnsiColor.GREEN}     d88P888                           ${AnsiColor.YELLOW}888    888          888
+${AnsiColor.GREEN}    d88P 888 88888b.d88b.  888 888d888 ${AnsiColor.YELLOW}888    888  .d88b.  888 8888 888  888 888  888 888
+${AnsiColor.GREEN}   d88P  888 888 "888 "88b 888 888P"   ${AnsiColor.YELLOW}888    888 d8P  Y8b 888 "888 888  888 888  888 888
+${AnsiColor.GREEN}  d88P   888 888  888  888 888 888     ${AnsiColor.YELLOW}888    888 88888888 888  888 888  888 888  888 888
+${AnsiColor.GREEN} d8888888888 888  888  888 888 888     ${AnsiColor.YELLOW}888  .d88P Y8b.     888  888 Y88b 888 Y88b 888 888
+${AnsiColor.GREEN}d88P     888 888  888  888 888 888     ${AnsiColor.YELLOW}8888888P"   "Y8888  888  888  "Y88888  "Y88888 888
+${AnsiColor.GREEN}                                       ${AnsiColor.YELLOW}                         888               888
+${AnsiColor.GREEN}                                       ${AnsiColor.YELLOW}                        d88P          Y8b d88P
+${AnsiColor.GREEN}                                       ${AnsiColor.YELLOW}                      888P"            "Y88P"

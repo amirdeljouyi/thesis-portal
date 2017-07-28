@@ -1,4 +1,4 @@
-<div>
+<div class="thesis">
     <header class="heading">
         <div class="bg1"></div>
         <div class="bg2"></div>
@@ -37,11 +37,9 @@
         <div class="btn-group flex-btn-group-container" data-toggle="buttons">
             <button class="btn btn-sm btn-secondary active" (click)="changeView(true)">
                     <span class="fa fa-th"></span>
-                    <!--<span class=""  >Card</span>-->
             </button>
             <button class="btn btn-sm btn-secondary" (click)="changeView(false)">
                 <span class="fa fa-list"></span>
-                    <!--<span class="" >Table</span>-->
             </button>
         </div>
     </div>
@@ -50,12 +48,15 @@
         <div class="card" *ngFor="let thesis of theses ;trackBy: trackId">
             <div class="card-header">
                 <a *ngIf="thesis.student" [routerLink]="['../student', thesis.student?.id ]">{{thesis.student?.name}}</a> &nbsp;
-                | &nbsp;
-                <a [routerLink]="['../leader', thesis.leader?.id ]">{{thesis.leader?.id}}</a>
             </div>
             <div class="card-block">
                 <h4 class="card-title">{{thesis.title}}</h4>
-                <p class="card-text">{{thesis.summary}}</p>
+
+                <div class="card-text">
+                    <h5>Major title : {{thesis.majorTitle}}</h5>
+                    <p>Number of referee : {{thesis.numOfReferee}}</p>
+                    <p>{{thesis.summary}}</p>
+                </div>
             </div>
             <ul class="list-group list-group-flush">
                 <li [ngSwitch]="isAuthenticated()" class="list-group-item">
@@ -107,7 +108,7 @@
                     <td>{{thesis.majorTitle}}</td>
                     <td>{{thesis.summary}}</td>
                     <td>{{thesis.numOfReferee}}
-                        <span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
+                        &nbsp;<span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
                     </td>
                     <td>{{thesis.dayOfDefense | date:'medium'}}</td>
                     <td>{{thesis.locationOfDefense}}</td>

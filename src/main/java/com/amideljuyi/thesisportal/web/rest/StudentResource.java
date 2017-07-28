@@ -75,6 +75,8 @@ public class StudentResource {
                     HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new student cannot already have an ID"))
                     .body(null);
         }
+        student.setNumOfAdviser(0);
+        student.setNumOfSupervisor(0);
         Student result = studentRepository.save(student);
         studentSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/students/" + result.getId()))
@@ -102,15 +104,15 @@ public class StudentResource {
 
         if (lastStudent.getStatus() == Status.INPRORGESS && student.getStatus() != Status.INPRORGESS) {
             if (student.getNumOfSupervisor() == 2)
-                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +1));
+                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +1));
             else
-                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +2));
+                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +2));
         } else if (lastStudent.getStatus() != Status.INPRORGESS && student.getStatus() == Status.INPRORGESS) {
             // validation required
             if (student.getNumOfSupervisor() == 2)
-                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -1));
+                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -1));
             else
-                student.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -2));
+                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -2));
         }
 
         Student result = studentRepository.save(student);

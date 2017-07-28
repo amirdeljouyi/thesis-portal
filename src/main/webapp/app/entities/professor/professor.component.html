@@ -1,13 +1,24 @@
-<div>
-    <h2>
-        <span>Professors</span>
-        <button class="btn btn-primary float-right jh-create-entity create-professor" [routerLink]="['/', { outlets: { popup: ['professor-new'] } }]">
-            <span class="fa fa-plus"></span>
-            <span class="hidden-sm-down" >
-            Create new Professor
-            </span>
-        </button>
-    </h2>
+<div class="entity">
+    <header class="heading">
+        <div class="bg1"></div>
+        <div class="bg2"></div>
+        <div class="bgmobile"></div>
+        <div class="valignout">
+            <div class="valignin">
+                <div class="row">
+                    <div class="col-sm-6 offset-sm-3 text-center">
+                        <h1 class="mb-3">Professors</h1>
+                        <button class="btn btn-primary float-right jh-create-entity create-professor" [routerLink]="['/', { outlets: { popup: ['professor-new'] } }]">
+                            <span class="fa fa-plus"></span>
+                            <span class="hidden-sm-down" >
+                            Create new Professor
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
     <jhi-alert></jhi-alert>
     <div class="row">
         <div class="col-sm-12">
@@ -28,51 +39,45 @@
     <div class="table-responsive" *ngIf="professors">
         <table class="table table-striped">
             <thead>
-            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
-            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="job"><span>Job</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="freeCapacityOfTotal"><span>Free Capacity Of Total</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="level.level"><span>Level</span> <span class="fa fa-sort"></span></th>
-            <th></th>
-            </tr>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="reset.bind(this)">
+                    <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="name"><span>Name</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="job"><span>Job</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="freeCapacityOfTotal"><span>Free Capacity Of Total</span> <span class="fa fa-sort"></span></th>
+                    <th jhiSortBy="level.level"><span>Level</span> <span class="fa fa-sort"></span></th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-            <tr *ngFor="let professor of professors ;trackBy: trackId">
-                <td><a [routerLink]="['../professor', professor.id ]">{{professor.id}}</a></td>
-                <td>{{professor.name}}</td>
-                <td>{{professor.job}}</td>
-                <td>{{professor.freeCapacityOfTotal}}</td>
-                <td>
-                    <div *ngIf="professor.level">
-                        <a [routerLink]="['../level', professor.level?.id ]" >{{professor.level?.level}}</a>
-                    </div>
-                </td>
-                <td class="text-right">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit"
-                                [routerLink]="['../professor', professor.id ]"
-                                class="btn btn-info btn-sm">
+                <tr *ngFor="let professor of professors ;trackBy: trackId">
+                    <td><a [routerLink]="['../professor', professor.id ]">{{professor.id}}</a></td>
+                    <td>{{professor.name}}</td>
+                    <td>{{professor.job}}</td>
+                    <td>{{professor.freeCapacityOfTotal}}</td>
+                    <td>
+                        <div *ngIf="professor.level">
+                            <a [routerLink]="['../level', professor.level?.id ]">{{professor.level?.level}}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit" [routerLink]="['../professor', professor.id ]" class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down">View</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'professor/'+ professor.id + '/edit'} }]"
-                                replaceUrl="true"
+                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'professor/'+ professor.id + '/edit'} }]" replaceUrl="true"
                                 class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="hidden-md-down">Edit</span>
                         </button>
-                        <button type="submit"
-                                [routerLink]="['/', { outlets: { popup: 'professor/'+ professor.id + '/delete'} }]"
-                                replaceUrl="true"
+                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'professor/'+ professor.id + '/delete'} }]" replaceUrl="true"
                                 class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
                             <span class="hidden-md-down">Delete</span>
                         </button>
-                    </div>
-                </td>
-            </tr>
+                        </div>
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>

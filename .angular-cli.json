@@ -8,7 +8,7 @@
         "outDir": "build/www/app",
         "assets": [
             "content",
-            "favicon.ico"
+            "favicon.png"
         ],
         "index": "index.html",
         "main": "app/app.main.ts",

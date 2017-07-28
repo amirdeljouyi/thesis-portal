@@ -20,6 +20,7 @@
     "bootstrap": "4.0.0-alpha.6",
     "core-js": "2.4.1",
     "font-awesome": "4.7.0",
+    "global": "^4.3.2",
     "ityped": "^0.0.10",
     "jquery": "3.2.1",
     "ng-jhipster": "0.2.7",
@@ -31,6 +32,7 @@
     "rxjs": "5.4.2",
     "swagger-ui": "2.2.10",
     "tether": "1.4.0",
+    "yo": "^2.0.0",
     "zone.js": "0.8.13"
   },
   "devDependencies": {
@@ -41,7 +43,7 @@
     "@types/node": "8.0.13",
     "@types/selenium-webdriver": "3.0.4",
     "angular2-template-loader": "0.6.2",
-    "awesome-typescript-loader": "3.2.1",
+    "awesome-typescript-loader": "^3.2.2",
     "browser-sync": "2.18.12",
     "browser-sync-webpack-plugin": "1.2.0",
     "codelyzer": "3.1.2",

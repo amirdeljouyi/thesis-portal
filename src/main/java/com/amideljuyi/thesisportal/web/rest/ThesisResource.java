@@ -63,6 +63,7 @@ public class ThesisResource {
         if (thesis.getId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new thesis cannot already have an ID")).body(null);
         }
+        thesis.setNumOfReferee(0);
         Thesis result = thesisRepository.save(thesis);
         thesisSearchRepository.save(result);
         return ResponseEntity.created(new URI("/api/theses/" + result.getId()))
