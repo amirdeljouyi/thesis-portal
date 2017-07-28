@@ -1,6 +1,7 @@
 package com.amideljuyi.thesisportal.repository;
 
 import com.amideljuyi.thesisportal.domain.Professor;
+import com.amideljuyi.thesisportal.domain.Student;
 import com.amideljuyi.thesisportal.domain.Supervisor;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -15,5 +16,6 @@ import org.springframework.data.jpa.repository.*;
 @Repository
 public interface SupervisorRepository extends JpaRepository<Supervisor,Long> {
     List<Supervisor> findByProfessor(Professor professor);
+    List<Supervisor> findByStudent(Student student);
     
 }

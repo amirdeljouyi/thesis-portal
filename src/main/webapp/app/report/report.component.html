@@ -19,35 +19,39 @@
         </div>
     </header>
     <jhi-alert></jhi-alert>
-    <div [hidden]="!professor" class="row mb-2 mt-2">
-        <div class="col-xs-12 text-center">
-            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(0)">General</a>
-            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(1)">Thesis</a>
-            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(2)">Supervisor</a>
-            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(3)">Advisor</a>
-            <a href="#" class="badge badge-pill badge-primary" (click)="showDetail(4)">Referee</a>
+    <div [hidden]="!professor" class="row mb-4">
+        <div class="col-sm-6 offset-sm-3 text-center">
+            <a [class.active-tab]="activeTab==0" class="badge badge-pill badge-primary" (click)="showDetail(0)">General</a>
+            <a [class.active-tab]="activeTab==1" class="badge badge-pill badge-primary" (click)="showDetail(1)">Thesis</a>
+            <a [class.active-tab]="activeTab==2" class="badge badge-pill badge-primary" (click)="showDetail(2)">Supervisor</a>
+            <a [class.active-tab]="activeTab==3" class="badge badge-pill badge-primary" (click)="showDetail(3)">Advisor</a>
+            <a [class.active-tab]="activeTab==4" class="badge badge-pill badge-primary" (click)="showDetail(4)">Referee</a>
         </div>
     </div>
 
     <!--for nothing-->
-    <div class="row" *ngIf="professor">
-        <div *ngIf="activeTab==0 && professor" class="p-4 detail">
-            <span>Name</span>
-
-            <span>{{professor.name}}</span>
-
-            <span>Job</span>
-
-            <span>{{professor.job}}</span>
-
-            <span>Free Capacity Of Total</span>
-
-            <span>{{professor.freeCapacityOfTotal}}</span>
-
-            <span>Level</span>
-
-            <div *ngIf="professor.level">
-                <a [routerLink]="['/level', professor.level?.id]">{{professor.level?.level}}</a>
+    <div *ngIf="professor">
+        <div *ngIf="activeTab==0" class="row">
+            <div class="col-sm-6 p-5">
+                <h2>Info</h2><br/>
+                <p>
+                    <span>Name : </span>
+                    <span>{{professor.name}}</span>
+                </p>
+                <p>
+                    <span>Job : </span>
+                    <span>{{professor.job}}</span>
+                </p>
+                <p>
+                    <span>Free Capacity Of Total</span>
+                    <span>{{professor.freeCapacityOfTotal}}</span>
+                </p>
+                <p>
+                    <span>Level : </span>
+                    <a *ngIf="professor.level" [routerLink]="['/level', professor.level?.id]">{{professor.level?.level}}</a>
+                </p>
+            </div>
+            <div class="col-sm-6">
             </div>
         </div>
 

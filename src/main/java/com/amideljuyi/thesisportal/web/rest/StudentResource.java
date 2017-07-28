@@ -3,9 +3,11 @@ package com.amideljuyi.thesisportal.web.rest;
 import com.codahale.metrics.annotation.Timed;
 import com.amideljuyi.thesisportal.domain.Professor;
 import com.amideljuyi.thesisportal.domain.Student;
+import com.amideljuyi.thesisportal.domain.Supervisor;
 import com.amideljuyi.thesisportal.domain.enumeration.Status;
 import com.amideljuyi.thesisportal.repository.ProfessorRepository;
 import com.amideljuyi.thesisportal.repository.StudentRepository;
+import com.amideljuyi.thesisportal.repository.SupervisorRepository;
 import com.amideljuyi.thesisportal.repository.search.ProfessorSearchRepository;
 import com.amideljuyi.thesisportal.repository.search.StudentSearchRepository;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
@@ -47,12 +49,16 @@ public class StudentResource {
 
     private final StudentSearchRepository studentSearchRepository;
 
+    private final SupervisorRepository supervisorRepository;
+
     private final ProfessorRepository professorRepository;
 
     private final ProfessorSearchRepository professorSearchRepository;
 
     public StudentResource(StudentRepository studentRepository, StudentSearchRepository studentSearchRepository,
-            ProfessorRepository professorRepository, ProfessorSearchRepository professorSearchRepository) {
+            ProfessorRepository professorRepository, ProfessorSearchRepository professorSearchRepository,
+            SupervisorRepository supervisorRepository) {
+        this.supervisorRepository = supervisorRepository;
         this.professorRepository = professorRepository;
         this.professorSearchRepository = professorSearchRepository;
         this.studentRepository = studentRepository;
@@ -101,18 +107,23 @@ public class StudentResource {
         }
 
         Student lastStudent = studentRepository.findOne(student.getId());
+        List<Supervisor> supervisorsByStudent = supervisorRepository.findByStudent(student);
 
         if (lastStudent.getStatus() == Status.INPRORGESS && student.getStatus() != Status.INPRORGESS) {
             if (student.getNumOfSupervisor() == 2)
-                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +1));
+                for (Supervisor item : supervisorsByStudent)
+                    updateProfessor(item.getProfessor(), +1);
             else
-                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), +2));
+                for (Supervisor item : supervisorsByStudent)
+                    updateProfessor(item.getProfessor(), +2);
         } else if (lastStudent.getStatus() != Status.INPRORGESS && student.getStatus() == Status.INPRORGESS) {
             // validation required
             if (student.getNumOfSupervisor() == 2)
-                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -1));
+                for (Supervisor item : supervisorsByStudent)
+                    updateProfessor(item.getProfessor(), -1);
             else
-                lastStudent.getSupervisers().forEach((v) -> updateProfessor(v.getProfessor(), -2));
+                for (Supervisor item : supervisorsByStudent)
+                    updateProfessor(item.getProfessor(), -2);
         }
 
         Student result = studentRepository.save(student);

@@ -34,54 +34,56 @@
                 </div>
             </form>
         </div>
-        <div class="btn-group flex-btn-group-container" data-toggle="buttons">
-            <button class="btn btn-sm btn-secondary active" (click)="changeView(true)">
-                    <span class="fa fa-th"></span>
-            </button>
-            <button class="btn btn-sm btn-secondary" (click)="changeView(false)">
-                <span class="fa fa-list"></span>
-            </button>
+        <div [(ngModel)]="cardView" ngbRadioGroup class="btn-group">
+            <label ngbButtonLabel class="btn btn-sm btn-secondary active">
+                <input ngbButton type="radio" [value]="true"> <span class="fa fa-th"></span>
+            </label>
+            <label ngbButtonLabel class="btn btn-sm btn-secondary">
+                <input ngbButton type="radio" [value]="false"> <span class="fa fa-list"></span>
+            </label>
         </div>
     </div>
     <br/>
     <div class="row p-3" *ngIf="theses && cardView">
-        <div class="card" *ngFor="let thesis of theses ;trackBy: trackId">
-            <div class="card-header">
-                <a *ngIf="thesis.student" [routerLink]="['../student', thesis.student?.id ]">{{thesis.student?.name}}</a> &nbsp;
-            </div>
-            <div class="card-block">
-                <h4 class="card-title">{{thesis.title}}</h4>
-
-                <div class="card-text">
-                    <h5>Major title : {{thesis.majorTitle}}</h5>
-                    <p>Number of referee : {{thesis.numOfReferee}}</p>
-                    <p>{{thesis.summary}}</p>
+        <div class="card-deck">
+            <div class="card" *ngFor="let thesis of theses ;trackBy: trackId">
+                <div class="card-header">
+                    <a *ngIf="thesis.student" [routerLink]="['../student', thesis.student?.id ]">{{thesis.student?.name}}</a>                    &nbsp;
                 </div>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li [ngSwitch]="isAuthenticated()" class="list-group-item">
-                    <div class="btn-group flex-btn-group-container">
-                        <button type="submit" [routerLink]="['../thesis', thesis.id ]" class="btn btn-info btn-sm">
+                <div class="card-block">
+                    <h4 class="card-title">{{thesis.title}}</h4>
+
+                    <div class="card-text">
+                        <h5>Major title : {{thesis.majorTitle}}</h5>
+                        <p>Number of referee : {{thesis.numOfReferee}}</p>
+                        <p>{{thesis.summary}}</p>
+                    </div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li [ngSwitch]="isAuthenticated()" class="list-group-item">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit" [routerLink]="['../thesis', thesis.id ]" class="btn btn-info btn-sm">
                             <span class="fa fa-eye"></span>
                             <span class="hidden-md-down">View</span>
                         </button>
-                        <button type="submit" [routerLink]="['/', { outlets: { popup: 'thesis/'+ thesis.id + '/edit'} }]" replaceUrl="true" class="btn btn-primary btn-sm">
+                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'thesis/'+ thesis.id + '/edit'} }]" replaceUrl="true" class="btn btn-primary btn-sm">
                             <span class="fa fa-pencil"></span>
                             <span class="hidden-md-down">Edit</span>
                         </button>
-                        <button type="submit" [routerLink]="['/', { outlets: { popup: 'thesis/'+ thesis.id + '/delete'} }]" replaceUrl="true" class="btn btn-danger btn-sm">
+                            <button type="submit" [routerLink]="['/', { outlets: { popup: 'thesis/'+ thesis.id + '/delete'} }]" replaceUrl="true" class="btn btn-danger btn-sm">
                             <span class="fa fa-remove"></span>
                             <span class="hidden-md-down">Delete</span>
                         </button>
-                    </div>
-                </li>
-                <li class="list-group-item" *ngIf="thesis.file">
-                    <a (click)="openFile(thesis.fileContentType, thesis.file)">open</a>
-                    <span>{{thesis.fileContentType}}, {{byteSize(thesis.file)}}</span>
-                </li>
-            </ul>
-            <div class="card-footer text-muted text-center">
-                {{thesis.dayOfDefense | date:'medium'}} at {{thesis.locationOfDefense}}
+                        </div>
+                    </li>
+                    <li class="list-group-item" *ngIf="thesis.file">
+                        <a (click)="openFile(thesis.fileContentType, thesis.file)">open</a>
+                        <span>{{thesis.fileContentType}}, {{byteSize(thesis.file)}}</span>
+                    </li>
+                </ul>
+                <div class="card-footer text-muted text-center">
+                    {{thesis.dayOfDefense | date:'medium'}} at {{thesis.locationOfDefense}}
+                </div>
             </div>
         </div>
     </div>
@@ -107,8 +109,8 @@
                     <td>{{thesis.title}}</td>
                     <td>{{thesis.majorTitle}}</td>
                     <td>{{thesis.summary}}</td>
-                    <td>{{thesis.numOfReferee}}
-                        &nbsp;<span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
+                    <td>{{thesis.numOfReferee}} &nbsp;
+                        <span *ngIf="thesis.numOfReferee < 2" class="badge badge-danger"><span class="fa fa-exclamation" aria-hidden="true"></span></span>
                     </td>
                     <td>{{thesis.dayOfDefense | date:'medium'}}</td>
                     <td>{{thesis.locationOfDefense}}</td>

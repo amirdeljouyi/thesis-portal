@@ -152,10 +152,6 @@ currentAccount: any;
         return this.principal.isAuthenticated();
     }
 
-    changeView(b: boolean) {
-        this.cardView = b;
-    }
-
     private onSuccess(data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');

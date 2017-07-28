@@ -26,7 +26,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     referees: Referee[];
     advisers: Adviser[];
     supervisors: Supervisor[];
-    activeTab: ActiveTab;
+    activeTab: number;
 
     currentAccount: any;
     error: any;
@@ -79,52 +79,48 @@ export class ReportComponent implements OnInit, OnDestroy {
             if (reason) {
                 this.professor = reason;
                 this.activeTab = 0;
+                this.loadAll();
             }
         });
     }
 
-    showDetail(tab: ActiveTab) {
+    showDetail(tab: number) {
         this.activeTab = tab;
-        if (this.activeTab == 1) {
-            this.thesisService.query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-                );
-        } else if (this.activeTab == 2) {
-            this.adviserService.query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(2, res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-                );
-        } else if (this.activeTab == 3) {
-            this.thesisService.query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-                );
-        } else if (this.activeTab == 4) {
-            this.thesisService.query({
-                page: this.page,
-                size: this.itemsPerPage,
-                sort: this.sort()
-            }).subscribe(
-                (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-                (res: ResponseWrapper) => this.onError(res.json)
-                );
-        }
     }
 
     loadAll() {
+        this.thesisService.query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+            );
+        this.adviserService.query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(2, res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+            );
+        this.thesisService.query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+            );
+        this.thesisService.query({
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.sort()
+        }).subscribe(
+            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
+            (res: ResponseWrapper) => this.onError(res.json)
+            );
     }
 
     loadPage(page) {
@@ -195,17 +191,17 @@ export class ReportComponent implements OnInit, OnDestroy {
     private onSuccess(num, data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        if (num == 1) 
-            for (let i = 0; i < data.length; i++) 
+        if (num === ActiveTab.THESIS)
+            for (let i = 0; i < data.length; i++)
                 this.theses.push(data[i]);
-        if (num == 2) 
-            for (let i = 0; i < data.length; i++) 
+        if (num === ActiveTab.SUPERVISER)
+            for (let i = 0; i < data.length; i++)
                 this.supervisors.push(data[i]);
-        if (num == 3) 
-            for (let i = 0; i < data.length; i++) 
+        if (num === ActiveTab.ADVISER)
+            for (let i = 0; i < data.length; i++)
                 this.advisers.push(data[i]);
-        if (num == 4) 
-            for (let i = 0; i < data.length; i++) 
+        if (num === ActiveTab.REFEREE)
+            for (let i = 0; i < data.length; i++)
                 this.referees.push(data[i]);
     }
 
@@ -214,10 +210,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 }
 
-enum ActiveTab {
-    'GENERAL',
-    'THESIS',
-    'SUPERVISER',
-    'ADVISER',
-    'REFEREE'
+const enum ActiveTab {
+    GENERAL,
+    THESIS,
+    SUPERVISER,
+    ADVISER,
+    REFEREE
 }

@@ -1,9 +1,11 @@
-.detail{
-    >span {
-        padding: 20px;
-    }
+.badge{
+    color: white !important;
+    vertical-align: middle;
+    padding: 0.5em 0.7em;
+    font-weight: normal;
+    font-size: 85%;
 }
 
-.bg1 , .bg2 , .bgmobile{
-    background-image: url('../../content/images/Blog-Header-Header2.jpg');
+.active-tab{
+    background-color: #1E824C;
 }

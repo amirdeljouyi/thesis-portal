@@ -90,7 +90,7 @@ public class SupervisorResource {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists",
                     "A new supervisor cannot already have an ID")).body(null);
         }
-        Student student=studentRepository.findOne(supervisor.getStudent().getId()); 
+        Student student=supervisor.getStudent(); 
 
         int valueForProfessor = -2;
         if (student.getNumOfSupervisor() == 1)
@@ -104,10 +104,10 @@ public class SupervisorResource {
         if (valueForProfessor == -2) {
             updateProfessor(supervisor.getProfessor(), valueForProfessor);
         } else {
-            student.getSupervisers().forEach((v) -> {
-                System.out.println(v.getProfessor());
-                updateProfessor(v.getProfessor(), +1);
-            });
+            List<Supervisor> supervisorsByStudent = supervisorRepository.findByStudent(student);
+            for (Supervisor item : supervisorsByStudent) {
+               updateProfessor(item.getProfessor(), +1);
+            }
             updateProfessor(supervisor.getProfessor(), valueForProfessor);
         }
 
