@@ -234,6 +234,9 @@ public class SupervisorResource {
             else
                 updateProfessor(supervisor.getProfessor(), +2);
         }
+
+        updateStudent(supervisor.getStudent(), -1);
+
         supervisorRepository.delete(id);
         supervisorSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();

@@ -4,14 +4,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <include file="config/liquibase/changelog/20170720092030_added_entity_constraints_Referee.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170720092031_added_entity_constraints_Adviser.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170720092032_added_entity_constraints_Supervisor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170720092026_added_entity_constraints_Student.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170720092027_added_entity_constraints_Professor.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20170720092029_added_entity_constraints_Thesis.xml" relativeToChangelogFile="false"/>
-
     <!--<include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>-->
+
     <include file="config/liquibase/changelog/20170720092026_added_entity_Student.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092027_added_entity_Professor.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092028_added_entity_Level.xml" relativeToChangelogFile="false"/>
@@ -19,5 +13,12 @@
     <include file="config/liquibase/changelog/20170720092030_added_entity_Referee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092031_added_entity_Adviser.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20170720092032_added_entity_Supervisor.xml" relativeToChangelogFile="false"/>
+
+    <include file="config/liquibase/changelog/20170720092030_added_entity_constraints_Referee.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170720092031_added_entity_constraints_Adviser.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170720092032_added_entity_constraints_Supervisor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170720092026_added_entity_constraints_Student.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170720092027_added_entity_constraints_Professor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20170720092029_added_entity_constraints_Thesis.xml" relativeToChangelogFile="false"/>
 
 </databaseChangeLog>
