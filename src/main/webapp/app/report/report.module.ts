@@ -20,14 +20,14 @@ const ENTITY_STATES = [
     ],
     declarations: [
         ReportComponent,
-        ReportDialogComponent,
+        ReportDialogComponent
     ],
     entryComponents: [
         ReportComponent,
-        ReportDialogComponent,
+        ReportDialogComponent
     ],
     providers: [
-        ReportService,
+        ReportService
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

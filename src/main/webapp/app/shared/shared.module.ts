@@ -17,6 +17,7 @@ import {
     SocialService,
     JhiLoginModalComponent
 } from './';
+import { DivisionPipe } from "./pipes/division.pipe";
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import {
     declarations: [
         JhiSocialComponent,
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        DivisionPipe
     ],
     providers: [
         LoginService,
@@ -46,6 +48,7 @@ import {
         JhiSocialComponent,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        DivisionPipe,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

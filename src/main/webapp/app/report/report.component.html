@@ -44,19 +44,36 @@
                 </p>
                 <p>
                     <span>Free Capacity Of Total</span>
-                    <span>{{professor.freeCapacityOfTotal}}</span>
+                    <span>{{professor.freeCapacityOfTotal | division}}</span>
                 </p>
                 <p>
                     <span>Level : </span>
                     <a *ngIf="professor.level" [routerLink]="['/level', professor.level?.id]">{{professor.level?.level}}</a>
                 </p>
             </div>
-            <div class="col-sm-6">
+            <div class="col-sm-6 p-5">
+                <h2>Statistics</h2><br/>
+                <p>
+                    <span>Number of refereed : </span>
+                    <span>{{numOfRefereed}}</span>
+                </p>
+                <p>
+                    <span>Number of he/she is supervisor : </span>
+                    <span>{{numOfSupervisor}}</span>
+                </p>
+                <p>
+                    <span>Number of he/she is adviser : </span>
+                    <span>{{numOfAdviser}}</span>
+                </p>
+                <p>
+                    <span>Number of theses : </span>
+                    <span>{{numOfTheses}}</span>
+                </p>
             </div>
         </div>
 
         <!--for thesis-->
-        <div class="table-responsive" *ngIf="theses && activeTab==1">
+        <div class="table-responsive" *ngIf="activeTab==1">
             <table class="table table-striped">
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -106,7 +123,7 @@
         </div>
 
         <!--for adviser-->
-        <div class="table-responsive" *ngIf="advisers && activeTab==2">
+        <div class="table-responsive" *ngIf="advisers && activeTab==3">
             <table class="table table-striped">
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
@@ -141,7 +158,7 @@
         </div>
 
         <!--for superviser-->
-        <div class="table-responsive" *ngIf="supervisors && activeTab==3">
+        <div class="table-responsive" *ngIf="supervisors && activeTab==2">
             <table class="table table-striped">
                 <thead>
                     <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">

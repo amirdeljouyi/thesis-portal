@@ -180,6 +180,16 @@ public class StudentResource {
     @Timed
     public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
         log.debug("REST request to delete Student : {}", id);
+
+        // Student student = studentRepository.findOne(id);
+        // List<Supervisor> supervisorsByStudent = supervisorRepository.findByStudent(student);
+        // if (student.getNumOfSupervisor() == 2)
+        //     for (Supervisor item : supervisorsByStudent)
+        //         updateProfessor(item.getProfessor(), +1);
+        // else
+        //     for (Supervisor item : supervisorsByStudent)
+        //         updateProfessor(item.getProfessor(), +2);
+
         studentRepository.delete(id);
         studentSearchRepository.delete(id);
         return ResponseEntity.ok().headers(HeaderUtil.createEntityDeletionAlert(ENTITY_NAME, id.toString())).build();

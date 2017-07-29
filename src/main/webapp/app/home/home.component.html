@@ -1,25 +1,26 @@
 <header>
-<div class="bg"></div>
-<div class="row">
-    <div class="col-md-12">
-        <article class="post text-center">
-            <br/><br/><br/>
-            <p class="h1">Access To <span class="element"></span> Essays</p>
-            <br/>
-            <p class="h4"> Essay service is a cloud which you can access a lot of essays and 
-                share your essays or if you proffessor and teacher you can manifact your students
-            </p>
-            <br/>
-            <div [ngSwitch]="isAuthenticated()">
-                <div class="alert alert-success" *ngSwitchCase="true">
-                    <span *ngIf="account"> You are logged in as user "{{account.login}}". </span>
-                </div>
+    <div class="bg"></div>
+    <div class="row">
+        <div class="col-md-12">
+            <article class="post text-center">
+                <br/><br/><br/>
+                <p class="h1">Access To <span class="element"></span> Theses</p>
+                <br/>
+                <p class="h4 mb-4"> Thesis Portal is a cloud which you can access a lot of theses or dissertaion and share your theses </p>
+                <p class="h5"> If you are student -> you can manage it and communicate with supervisors and adviser 
+                    <br/> If you are proffessor -> you can manifact your students , theses ands tasks
+                </p>
+                <br/>
+                <div [ngSwitch]="isAuthenticated()">
+                    <div class="alert alert-success" *ngSwitchCase="true">
+                        <span *ngIf="account"> You are logged in as user "{{account.login}}". </span>
+                    </div>
 
-                <button class="btn btn-primary text-uppercase" *ngSwitchCase="false">
+                    <button class="btn btn-primary text-uppercase" *ngSwitchCase="false">
                     <a (click)="login()"> Start your thesis now</a>
                 </button>
-            </div>
-        </article>
+                </div>
+            </article>
+        </div>
     </div>
-</div>
 </header>

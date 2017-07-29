@@ -1,8 +1,11 @@
 package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.amideljuyi.thesisportal.domain.Professor;
+import com.amideljuyi.thesisportal.domain.Supervisor;
 import com.amideljuyi.thesisportal.domain.Thesis;
-
+import com.amideljuyi.thesisportal.repository.ProfessorRepository;
+import com.amideljuyi.thesisportal.repository.SupervisorRepository;
 import com.amideljuyi.thesisportal.repository.ThesisRepository;
 import com.amideljuyi.thesisportal.repository.search.ThesisSearchRepository;
 import com.amideljuyi.thesisportal.web.rest.util.HeaderUtil;
@@ -21,7 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -44,7 +47,13 @@ public class ThesisResource {
 
     private final ThesisSearchRepository thesisSearchRepository;
 
-    public ThesisResource(ThesisRepository thesisRepository, ThesisSearchRepository thesisSearchRepository) {
+    private final SupervisorRepository supervisorRepository;
+
+    private final ProfessorRepository professorRepository;
+
+    public ThesisResource(ThesisRepository thesisRepository, ThesisSearchRepository thesisSearchRepository,SupervisorRepository supervisorRepository,ProfessorRepository professorRepository) {
+        this.professorRepository=professorRepository;
+        this.supervisorRepository=supervisorRepository;
         this.thesisRepository = thesisRepository;
         this.thesisSearchRepository = thesisSearchRepository;
     }
@@ -155,4 +164,20 @@ public class ThesisResource {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
+    @GetMapping("/theses/professor/{id}")
+    @Timed
+    public ResponseEntity<List<Thesis>> getAllThesesByProfessor(@PathVariable Long id, @ApiParam Pageable pageable) {
+
+        Professor professor = professorRepository.findOne(id);
+
+        Page<Supervisor> page = supervisorRepository.findByProfessor(professor, pageable);
+        List<Thesis> theses=new ArrayList<Thesis>();
+        for(Supervisor item:page.getContent()){
+            if(item.getStudent().getThesis()!=null)
+                theses.add(item.getStudent().getThesis());
+        }
+        
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/theses/professor/" + id);
+        return new ResponseEntity<>(theses, headers, HttpStatus.OK);
+    }
 }

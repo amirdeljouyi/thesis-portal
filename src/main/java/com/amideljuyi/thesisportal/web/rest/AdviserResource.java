@@ -2,8 +2,10 @@ package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
 import com.amideljuyi.thesisportal.domain.Adviser;
+import com.amideljuyi.thesisportal.domain.Professor;
 import com.amideljuyi.thesisportal.domain.Student;
 import com.amideljuyi.thesisportal.repository.AdviserRepository;
+import com.amideljuyi.thesisportal.repository.ProfessorRepository;
 import com.amideljuyi.thesisportal.repository.StudentRepository;
 import com.amideljuyi.thesisportal.repository.search.AdviserSearchRepository;
 import com.amideljuyi.thesisportal.repository.search.StudentSearchRepository;
@@ -51,12 +53,15 @@ public class AdviserResource {
 
     private final StudentSearchRepository studentSearchRepository;
 
+    private final ProfessorRepository professorRepository;
+
     public AdviserResource(AdviserRepository adviserRepository, AdviserSearchRepository adviserSearchRepository,
-            StudentRepository studentRepository, StudentSearchRepository studentSearchRepository) {
+            StudentRepository studentRepository, StudentSearchRepository studentSearchRepository ,ProfessorRepository professorRepository) {
         this.studentRepository = studentRepository;
         this.studentSearchRepository = studentSearchRepository;
         this.adviserRepository = adviserRepository;
         this.adviserSearchRepository = adviserSearchRepository;
+        this.professorRepository=professorRepository;
     }
 
     /**
@@ -190,6 +195,18 @@ public class AdviserResource {
         log.debug("REST request to search for a page of Advisers for query {}", query);
         Page<Adviser> page = adviserSearchRepository.search(queryStringQuery(query), pageable);
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/advisers");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
+    @GetMapping("/advisers/professor/{id}")
+    @Timed
+    public ResponseEntity<List<Adviser>> getAllAdviserssByProfessor(@PathVariable Long id, @ApiParam Pageable pageable) {
+
+        Professor professor = professorRepository.findOne(id);
+
+        Page<Adviser> page = adviserRepository.findByProfessor(professor, pageable);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/advisers/professor/" + id);
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 

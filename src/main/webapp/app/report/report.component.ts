@@ -27,6 +27,10 @@ export class ReportComponent implements OnInit, OnDestroy {
     advisers: Adviser[];
     supervisors: Supervisor[];
     activeTab: number;
+    numOfRefereed;
+    numOfSupervisor;
+    numOfAdviser;
+    numOfTheses;
 
     currentAccount: any;
     error: any;
@@ -51,17 +55,7 @@ export class ReportComponent implements OnInit, OnDestroy {
         private router: Router,
         private eventManager: JhiEventManager,
         private modalService: NgbModal,
-        private professorService: ProfessorService,
-        private thesisService: ThesisService,
-        private adviserService: AdviserService,
-        private supervisorService: SupervisorService,
-        private refereeService: RefereeService
     ) {
-        this.theses = [];
-        this.advisers = [];
-        this.referees = [];
-        this.supervisors = [];
-
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.page = 0;
         this.links = {
@@ -77,6 +71,10 @@ export class ReportComponent implements OnInit, OnDestroy {
             // Left blank intentionally, nothing to do here
         }, (reason) => {
             if (reason) {
+                this.theses = [];
+                this.advisers = [];
+                this.referees = [];
+                this.supervisors = [];
                 this.professor = reason;
                 this.activeTab = 0;
                 this.loadAll();
@@ -89,38 +87,26 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     loadAll() {
-        this.thesisService.query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
-        this.adviserService.query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(2, res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
-        this.thesisService.query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
-        this.thesisService.query({
-            page: this.page,
-            size: this.itemsPerPage,
-            sort: this.sort()
-        }).subscribe(
-            (res: ResponseWrapper) => this.onSuccess(1, res.json, res.headers),
-            (res: ResponseWrapper) => this.onError(res.json)
-            );
+        this.reportService.querySupervisors(this.professor.id, { page: this.page, size: this.itemsPerPage }).subscribe((res) => {
+            this.supervisors = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.numOfSupervisor = + res.headers.get('X-Total-Count');
+        });
+        this.reportService.queryAdvisers(this.professor.id, { page: this.page, size: this.itemsPerPage }).subscribe((res) => {
+            this.advisers = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.numOfAdviser = + res.headers.get('X-Total-Count');
+        });
+        this.reportService.queryReferees(this.professor.id, { page: this.page, size: this.itemsPerPage }).subscribe((res) => {
+            this.referees = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.numOfRefereed = + res.headers.get('X-Total-Count');
+        });
+        this.reportService.queryTheses(this.professor.id, { page: this.page, size: this.itemsPerPage }).subscribe((res) => {
+            this.theses = res.json();
+            this.links = this.parseLinks.parse(res.headers.get('link'));
+            this.numOfTheses = + res.headers.get('X-Total-Count');
+        });
     }
 
     loadPage(page) {
@@ -150,7 +136,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.loadAll();
+        //this.loadAll();
         this.principal.identity().then((account) => {
             this.currentAccount = account;
         });
@@ -188,21 +174,38 @@ export class ReportComponent implements OnInit, OnDestroy {
         return this.principal.isAuthenticated();
     }
 
+    // private thesesLoad() {
+    //     for (let i = 0; i < this.supervisors.length; i++) {
+    //         if(this.supervisors[i].student!=null)
+    //             //this.theses.push(this.supervisors[i].student?.thesis);
+    //     }
+    //     this.numOfTheses = this.theses.length;
+
+    // }
+
     private onSuccess(num, data, headers) {
         this.links = this.parseLinks.parse(headers.get('link'));
         this.totalItems = headers.get('X-Total-Count');
-        if (num === ActiveTab.THESIS)
+        if (num === ActiveTab.THESIS) {
             for (let i = 0; i < data.length; i++)
                 this.theses.push(data[i]);
-        if (num === ActiveTab.SUPERVISER)
+            this.numOfTheses = this.theses.length;
+        }
+        if (num === ActiveTab.SUPERVISER) {
             for (let i = 0; i < data.length; i++)
                 this.supervisors.push(data[i]);
-        if (num === ActiveTab.ADVISER)
+            this.numOfSupervisor = this.supervisors.length;
+        }
+        if (num === ActiveTab.ADVISER) {
             for (let i = 0; i < data.length; i++)
                 this.advisers.push(data[i]);
-        if (num === ActiveTab.REFEREE)
+            this.numOfAdviser = this.advisers.length;
+        }
+        if (num === ActiveTab.REFEREE) {
             for (let i = 0; i < data.length; i++)
                 this.referees.push(data[i]);
+            this.numOfRefereed = this.referees.length;
+        }
     }
 
     private onError(error) {

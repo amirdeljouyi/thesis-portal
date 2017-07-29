@@ -51,13 +51,13 @@ public class SupervisorResource {
 
     private final SupervisorSearchRepository supervisorSearchRepository;
 
-    private final StudentRepository studentRepository;
-
-    private final StudentSearchRepository studentSearchRepository;
-
     private final ProfessorRepository professorRepository;
 
     private final ProfessorSearchRepository professorSearchRepository;
+
+    private final StudentRepository studentRepository;
+
+    private final StudentSearchRepository studentSearchRepository;
 
     public SupervisorResource(SupervisorRepository supervisorRepository,
             SupervisorSearchRepository supervisorSearchRepository, StudentRepository studentRepository,
@@ -173,6 +173,7 @@ public class SupervisorResource {
 
         if (!isProfessorChanged && isStudentChanged) {
             updateProfessor(supervisor.getProfessor(), currentValue);
+            // updatePreviousProfessor
         }
 
         if (isStudentChanged) {
@@ -309,6 +310,18 @@ public class SupervisorResource {
         }
 
         return null;
+    }
+
+    @GetMapping("/supervisors/professor/{id}")
+    @Timed
+    public ResponseEntity<List<Supervisor>> getAllSupervisorsByProfessor(@PathVariable Long id, @ApiParam Pageable pageable) {
+
+        Professor professor = professorRepository.findOne(id);
+
+        Page<Supervisor> page = supervisorRepository.findByProfessor(professor, pageable);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/supervisors/professor/" + id);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

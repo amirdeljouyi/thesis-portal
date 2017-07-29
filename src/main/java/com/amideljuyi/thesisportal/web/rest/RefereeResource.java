@@ -1,8 +1,10 @@
 package com.amideljuyi.thesisportal.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.amideljuyi.thesisportal.domain.Professor;
 import com.amideljuyi.thesisportal.domain.Referee;
 import com.amideljuyi.thesisportal.domain.Thesis;
+import com.amideljuyi.thesisportal.repository.ProfessorRepository;
 import com.amideljuyi.thesisportal.repository.RefereeRepository;
 import com.amideljuyi.thesisportal.repository.ThesisRepository;
 import com.amideljuyi.thesisportal.repository.search.RefereeSearchRepository;
@@ -50,8 +52,11 @@ public class RefereeResource {
 
     private final ThesisSearchRepository thesisSearchRepository;
 
+    private final ProfessorRepository professorRepository;
+
     public RefereeResource(RefereeRepository refereeRepository, RefereeSearchRepository refereeSearchRepository,
-            ThesisRepository thesisRepository, ThesisSearchRepository thesisSearchRepository) {
+            ThesisRepository thesisRepository, ThesisSearchRepository thesisSearchRepository,ProfessorRepository professorRepository) {
+        this.professorRepository=professorRepository;        
         this.thesisRepository = thesisRepository;
         this.thesisSearchRepository = thesisSearchRepository;
         this.refereeRepository = refereeRepository;
@@ -188,6 +193,19 @@ public class RefereeResource {
         HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/referees");
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("/referees/professor/{id}")
+    @Timed
+    public ResponseEntity<List<Referee>> getAllRefereesByProfessor(@PathVariable Long id, @ApiParam Pageable pageable) {
+
+        Professor professor = professorRepository.findOne(id);
+
+        Page<Referee> page = refereeRepository.findByProfessor(professor, pageable);
+
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/referees/professor/" + id);
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
+
 
     private void updateThesis(Thesis thesis,int value){
         thesis.setNumOfReferee(thesis.getNumOfReferee() + value);

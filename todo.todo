@@ -2,14 +2,18 @@
 ☐ create index for supervisor , referee , advisor 
 ☐ update supervisor , referee , advisor
 ☐ delete supervisor , referee , advisor
-☐ if num of supervisor > 1 ->
-     professor(1).freecapacityoftotal ++ ;
-     professor(2).freecapacityoftotal -- ;
+✔ if num of supervisor > 1 -> @done (7/29/2017, 1:03:00 AM)
+     ✔ professor(1).freecapacityoftotal ++ ; @done (7/29/2017, 1:03:16 AM)
+     ✔ professor(2).freecapacityoftotal -- ; @done (7/29/2017, 1:03:13 AM)
      
-☐  change mode for student
-    ☐  in edit validation required
+✔ change mode for student @done (7/29/2017, 1:02:43 AM)
+    ✘ in edit validation required @cancelled (7/29/2017, 4:07:58 PM)
 
-☐ card view
-☐ nesting select
+✔ card view @done (7/29/2017, 1:03:32 AM)
+✔ nesting select @done (7/29/2017, 1:03:36 AM)
 ☐ report query
-☐ report filter by time
+☐ report filter by times
+
+* edit supervisor
+* edit referee
+* edit advisor

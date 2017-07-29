@@ -52,7 +52,7 @@
                     <td><a [routerLink]="['../level', level.id ]">{{level.id}}</a></td>
                     <td>{{level.level}}</td>
                     <td>{{level.capacityOfYear}}</td>
-                    <td>{{level.capacityOfTotal}}</td>
+                    <td>{{level.capacityOfTotal | division}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit" [routerLink]="['../level', level.id ]" class="btn btn-info btn-sm">

@@ -53,7 +53,7 @@
                     <td><a [routerLink]="['../professor', professor.id ]">{{professor.id}}</a></td>
                     <td>{{professor.name}}</td>
                     <td>{{professor.job}}</td>
-                    <td>{{professor.freeCapacityOfTotal}}</td>
+                    <td>{{professor.freeCapacityOfTotal | division}}</td>
                     <td>
                         <div *ngIf="professor.level">
                             <a [routerLink]="['../level', professor.level?.id ]">{{professor.level?.level}}</a>
